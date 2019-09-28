@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "Todoist : Task Quick Adding",
+    "description": "Name of the extension."
+  },
+  
+  "extensionDescription": {
+    "message": "Add the current web site URL as new Inbox Task in your Todoist.",
+    "description": "Description of the extension."
+  }
+}

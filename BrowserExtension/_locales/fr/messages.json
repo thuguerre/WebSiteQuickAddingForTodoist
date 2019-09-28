@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "Todoist : Ajout rapide d'une tache [NON OFFICIELLE]",
+    "description": "Nom de l'extension."
+  },
+  
+  "extensionDescription": {
+    "message": "Ajoute l'URL du site web actuel en tant que nouvelle tache dans la Boite de Reception de votre Todoist.",
+    "description": "Description de l'extension."
+  }
+}

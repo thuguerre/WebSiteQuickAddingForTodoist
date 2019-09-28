@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_extensionName__",
+  "short_name" : "TODO",
+  "version": "0.0",
+
+  "description": "__MSG_extensionDescription__",
+  "default_locale": "fr",
+
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+  
+  "background": {
+    "scripts": ["background.js"]
+  },
+  
+  "permissions": [
+    "tabs",
+    "identity",
+    "storage"
+  ],
+  
+   "browser_action": {
+    "default_icon": {
+      "48": "icons/border-48.png"
+    }
+  }
+}
