@@ -1,7 +1,8 @@
-# Project Description
-
 ***PROJECT UNDER DEVELOPMENT***    
 ***NOT EVEN IN AN ALPHA VERSION NOW :)***
+
+
+# Project Description
 
 This **unofficial** Todoist browser extension allows its user to add its current web site's URL as a new Task in is Todoist Inbox, just by clicking on a single button. It completes the official Todoist browser extension, allowing the same use case but with a 4-clicks process.    
 
@@ -13,7 +14,7 @@ For the moment, this project will only provide this single and quite simple func
 
 This extension project is now under developement. Contributions are still difficult for the moment. However, you will be able to contribute soon !
 - By translating texts other than in English and French,
-- By creating issues, and even fixing them :)
+- By reporting issues, and even fixing them :)
 
 ## How it works ?
 
@@ -23,8 +24,8 @@ Basically, the extension has the following process, fired when the user clicks o
 2. If no Access Token is found, launch [Todoist Authorization Flow](https://developer.todoist.com/sync/v8/#authorization):
     - Prompt the Todoist Authentication Form, using [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity),
     - Get a valid OAuth Code, once user has authenticated
-    - Call our `Todoist Proxy API` to transform this OAuth Code in a valid Access Token. **This step has not been yet implemented, and must be done manually by developer when testing**
-    - Store the Access Token in `Browser Storage`
+    - Call our `Todoist Proxy API` to transform this OAuth Code in a valid Access Token. ***This step has not been yet implemented, and must be done manually by developer when testing***
+    - Store the Access Token in `Browser Storage`, for a future reuse
 3. Launch the Task Add Flow:
     - Get active tab, to retrieve its URL
     - Call [Todoist Rest API](https://developer.todoist.com/rest/v1/#create-a-new-task) to add the task
@@ -35,8 +36,11 @@ Basically, the extension has the following process, fired when the user clicks o
 
 ### Todoist Account
 
-In order to make this project working and testable, you will need to own a [Todoist Account](https://todoist.com).  
-You will also need to declare an application in [Todoist Application Management](https://developer.todoist.com/appconsole.html), in order to get Client Id and Secret values which will have to be set in the following credentials files. 
+In order to make this project working and testable, you will need to own a [Todoist Account](https://todoist.com), first to authenticate the extension as any user will do, but also to get application credentials.  
+
+You will also need to declare an application in [Todoist Application Management](https://developer.todoist.com/appconsole.html), in order to get Client Id and Secret values which will have to be set in the following credentials files.  
+
+*I own a premium Todoist account, and currently do not know if a free account is enough.*  
 
 ### Credentials
 
@@ -72,7 +76,7 @@ Under your Firefox browser (**not yet tested under Chrome**)
 - Click on `Load Temporary Add-on`
 - Choose any file in the `BrowserExtension` directory
 
-*You can have more information about testing an extension on [this page](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension)*  
+*You can have more information about testing an extension on [this page](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension).*  
 
 Do not hesitate to click on Extension `Debug` button to have a look at the extension's logs.    
 
