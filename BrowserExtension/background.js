@@ -9,7 +9,7 @@ function clickOnButton() {
 
   // TODO delete once useless
   // setTodoistAccessTokenInBrowserStorage(TEMP_TOKEN);
-  cleanAccessTokenFromEveryWhere();
+  // cleanAccessTokenFromEveryWhere();
     
   // trying to get access token from storage
   browser.storage.local.get(TODOIST_ACCESS_TOKEN_STORAGE_ID).then(gotAccessTokenFromStorage, onErrorToGetAccessTokenFromStorage);

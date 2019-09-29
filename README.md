@@ -32,7 +32,7 @@ Basically, the extension has the following process, fired when the user clicks o
     - If task add is a success, confirm the user the task has been added, using [Browser Notification API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
     - If task add has failed due to Authorization reasons, revoke the Access Token and go to `Step 2` 
 
-## How to set up the project ?
+## How to setup the project ?
 
 ### Todoist Account
 
@@ -95,3 +95,4 @@ Do not hesitate to click on Extension `Debug` button to have a look at the exten
 - [Browser Extension Mozilla Documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension)
 - [Browser Notifications API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
 - [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity)
+- [Chrome portability from WebExtension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Chrome_incompatibilities)
