@@ -3,24 +3,26 @@
 PROJECT UNDER DEVELOPMENT  
 NOT EVEN IN AN ALPHA VERSION NOW :)
 
-## How to contribute ?
+## For developers and/or contributors
+
+### How to contribute ?
 
 This extension project is now under developement. Contributions are still difficult for the moment. However, you will be able to contribute soon !
 - By translating texts other than in English and French,
 - By creating issues, and even fixing them :)
 
-## How it works ?
+### How it works ?
 
 TODO
 
-## For developers : how to set up the project ?
+### How to set up the project ?
 
-### Todoist Account
+#### Todoist Account
 
 In order to make this project working and testable, you will need to own a [Todoist Account](https://todoist.com).  
 You will also need to declare an application in [Todoist Application Management](https://developer.todoist.com/appconsole.html), in order to get Client Id and Secret values which will have to be set in the following credentials files. 
 
-### Credentials
+#### Credentials
 
 For security reasons, Todoist API credentials are not committed to the Git repository.  
 For the moment, a very basic solution is used : credentials are externalized into files which are Git-ignored.  
