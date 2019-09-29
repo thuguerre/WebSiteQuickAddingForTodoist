@@ -13,6 +13,16 @@ This extension project is now under developement. Contributions are still diffic
 
 TODO
 
+## For developers : how to set up the project ?
+
+###Credentials
+For security reasons, Todoist API credentials are not committed to the Git repository.  
+For the moment, a very basic solution is used : credentials are externalized into files which are Git-ignored.  
+A better solution will be found as soon as possible.
+
+If you download this source code, to make the Browser Extension working, you have to create a `credentials.js` file in `BrowserExtension` directory. This file must look like :  
+> const TEMP_TOKEN = "123456";
+
 ## Resources
 - [Todoist REST API Documentation](https://developer.todoist.com/rest/v1/#create-a-new-task), for Task Add Service
 - [Todoist Sync API Documentation](https://developer.todoist.com/sync/v8/#authorization), for Todoist Authorization Flow, based on OAuth
