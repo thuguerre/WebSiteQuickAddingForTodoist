@@ -2,16 +2,20 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class RestApi {
 
 	private static final String todoistGetAccessTokenApi = "https://todoist.com/oauth/access_token";
 
 	private static final String todoistRevokeAccessTokenApi = "https://api.todoist.com/sync/v8/access_tokens/revoke";
 
-	private static final String CLIENT_ID = "51ba8ae54b9146be839bd0561002f081";
+	private static String CLIENT_ID;
 
-	// the true value of our application OAUTH Client Secret must not be committed publicly
-	private static final String CLIENT_SECRET = "NOT_TO_COMMIT";
+	private static String CLIENT_SECRET;
 
 	private static void getAccessToken(String code) {
 
@@ -56,7 +60,20 @@ public class RestApi {
 	}
 
 	public static void main(String[] args) {
-		getAccessToken("9a4d424dceb2112a28a784e673d998596612a6c2");
-		//revokeAccessToken("NOT_TO_COMMIT");
+
+		try (InputStream input = new FileInputStream("src/main/resources/credentials.properties")) {
+
+			Properties prop = new Properties();
+			prop.load(input);
+			CLIENT_ID = prop.getProperty("CLIENT_ID");
+			CLIENT_SECRET = prop.getProperty("CLIENT_SECRET");
+
+			getAccessToken(prop.getProperty("TEMP_CODE"));
+			// revokeAccessToken(prop.getProperty("TEMP_TOKEN"));
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
 	}
 }

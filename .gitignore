@@ -1,6 +1,6 @@
 ##-------credentials------
 BrowserExtension/credentials.js
-
+TodoistProxyAPI/src/main/resources/credentials.properties
 
 ##----------idea----------
 TodoistProxyAPI/*.iml

@@ -1,5 +1,4 @@
 const TASK_ADD_NOTIFICATION_ID = "task-add-notification";
-const CLIENT_ID = "51ba8ae54b9146be839bd0561002f081";
 const TODOIST_ACCESS_TOKEN_STORAGE_ID = 'todoist_access_token';
 var todoist_access_token;
 
