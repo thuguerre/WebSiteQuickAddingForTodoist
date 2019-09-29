@@ -27,18 +27,18 @@ For the moment, a very basic solution is used : credentials are externalized int
 A better solution will be found as soon as possible.
 
 If you download this source code, to make the Browser Extension working, you have to create a `credentials.js` file in `BrowserExtension` directory. This file must look like:  
-> const CLIENT_ID = "12345";
-> const TEMP_TOKEN = "123456";
+> const CLIENT_ID = "12345";  
+> const TEMP_TOKEN = "123456";  
 
 where:
 - `CLIENT_ID` value is replaced by your Todoist Application Client ID
 - `TEMP_TOKEN` value is replaced by a valid token : your own [Todoist API Key](https://todoist.com/prefs/integrations), or a true token generated through the authorization flow (currently manually got from the ProxyAPI).
 
 Moreover, to make the ProxyAPI works, you have to create a `credentials.properties` file in `TodoistProxyAPI/src/main/resources` directory. This file must look like:
-> CLIENT_ID=123456
-> CLIENT_SECRET=123456
-> TEMP_CODE=123456
-> TEMP_TOKEN=123465
+> CLIENT_ID=123456  
+> CLIENT_SECRET=123456  
+> TEMP_CODE=123456  
+> TEMP_TOKEN=123465  
 
 where:
 - `CLIENT_ID` has the same value as in `credentials.js` file
