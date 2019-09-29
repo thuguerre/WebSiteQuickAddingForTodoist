@@ -70,7 +70,8 @@ where:
 
 ### How to test the extension ?
 
-Under your Firefox browser (**not yet tested under Chrome**) 
+#### Under your Firefox browser
+ 
 - Open `about:debugging` tab 
 - Click on `This Firefox`
 - Click on `Load Temporary Add-on`
@@ -78,9 +79,17 @@ Under your Firefox browser (**not yet tested under Chrome**)
 
 *You can have more information about testing an extension on [this page](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension).*  
 
-Do not hesitate to click on Extension `Debug` button to have a look at the extension's logs.    
+Do not hesitate to click on Extension `Debug` button to have a look at the extension's logs.
+
+#### Under your Chrome browser
+
+- Open `chrome://extensions/` tab
+- Activate `Developer mode`
+- Click on `Load non packed extension`
+- Choose `BrowserExtension` directory    
 
 # Resources
+
 - [Todoist REST API Documentation](https://developer.todoist.com/rest/v1/#create-a-new-task), for Task Add Service
 - [Todoist Sync API Documentation](https://developer.todoist.com/sync/v8/#authorization), for Todoist Authorization Flow, based on OAuth protocol
 - [Browser Extension Mozilla Documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension)
