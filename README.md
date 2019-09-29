@@ -1,7 +1,12 @@
 # TodoistQuickWebSiteURLAddAsTask
 
-PROJECT UNDER DEVELOPMENT  
-NOT EVEN IN AN ALPHA VERSION NOW :)
+***PROJECT UNDER DEVELOPMENT***    
+***NOT EVEN IN AN ALPHA VERSION NOW :)***
+
+This browser extension allows its user to add its current web site's URL as a new Task in is Todoist Inbox, just by clicking on a single button.  
+It completes the official Todoist browser extension, allowing the same use case but with a 4-clicks process.    
+
+For the moment, this project will only provide this single and quite simple functionnality. It may add other ones later, such as a right-click menu, or the possibility to add inner-page links as task.     
 
 ## For developers and/or contributors
 
