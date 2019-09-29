@@ -17,15 +17,15 @@ Basically, the extension has the following process, fired when the user clicks o
 
 1. Try to access the Todoist Access Token stored in `Browser Storage`
 2. If no Access Token is found, launch [Todoist Authorization Flow](https://developer.todoist.com/sync/v8/#authorization):
-    1. Prompt the Todoist Authentication Form, using [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity),
-    2. Get a valid OAuth Code, once user has authenticated
-    3. Call our `Todoist Proxy API` to transform this OAuth Code in a valid Access Token **This step has not been yet implemented, and must be done manually by developer when testing**
-    4. Store the Access Token in `Browser Storage`
+    - Prompt the Todoist Authentication Form, using [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity),
+    - Get a valid OAuth Code, once user has authenticated
+    - Call our `Todoist Proxy API` to transform this OAuth Code in a valid Access Token. **This step has not been yet implemented, and must be done manually by developer when testing**
+    - Store the Access Token in `Browser Storage`
 3. Launch the Task Add Flow:
-    1. Get active tab, to retrieve its URL
-    2. Call [Todoist Rest API](https://developer.todoist.com/rest/v1/#create-a-new-task) to add the task
-    3. If task add is a success, confirm the user the task has been added, using [Browser Notification API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
-    4. If task add has failed due to Authorization reasons, revoke the Access Token and go to `Step 2` 
+    - Get active tab, to retrieve its URL
+    - Call [Todoist Rest API](https://developer.todoist.com/rest/v1/#create-a-new-task) to add the task
+    - If task add is a success, confirm the user the task has been added, using [Browser Notification API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
+    - If task add has failed due to Authorization reasons, revoke the Access Token and go to `Step 2` 
 
 ### How to set up the project ?
 
@@ -68,9 +68,9 @@ Under your Firefox browser (**not yet tested under Chrome**)
 - Click on `Load Temporary Add-on`
 - Choose any file in the `BrowserExtension` directory
 
-*You can have more information on [this page](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension)*  
+*You can have more information about testing an extension on [this page](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension)*  
 
-Do not hesitate to click on `Debug` button to have a look at the extension logs.    
+Do not hesitate to click on Extension `Debug` button to have a look at the extension's logs.    
 
 ## Resources
 - [Todoist REST API Documentation](https://developer.todoist.com/rest/v1/#create-a-new-task), for Task Add Service
