@@ -1,3 +1,7 @@
+##-------credentials------
+BrowserExtension/credentials.js
+
+
 ##----------idea----------
 TodoistProxyAPI/*.iml
 TodoistProxyAPI/.idea/

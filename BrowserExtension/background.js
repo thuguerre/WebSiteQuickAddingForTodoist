@@ -1,6 +1,6 @@
+const TASK_ADD_NOTIFICATION_ID = "task-add-notification";
 const CLIENT_ID = "51ba8ae54b9146be839bd0561002f081";
 const TODOIST_ACCESS_TOKEN_STORAGE_ID = 'todoist_access_token';
-const TEMP_TOKEN = "123456789";
 var todoist_access_token;
 
 // all starts from this listener set on browser extension button click
@@ -111,6 +111,7 @@ function onTabGot(tabInfo) {
   
     if (this.readyState == 4 && this.status == 200) {    
       console.log("task added !");
+      confirmTaskCreationToUser();
       
     } else if (this.readyState == 4 && this.status == 403) {
       
@@ -130,6 +131,15 @@ function onTabGot(tabInfo) {
 
 function onErrorToGetTab(error) {
   console.error;
+}
+
+function confirmTaskCreationToUser() {
+  browser.notifications.create(TASK_ADD_NOTIFICATION_ID, {
+    "type": "basic",
+    "iconUrl": browser.runtime.getURL("icons/border-48.png"),
+    "title": browser.i18n.getMessage("taskAddConfirmationTitle"),
+    "message": browser.i18n.getMessage("taskAddConfirmationMessage")
+  });
 }
 
 

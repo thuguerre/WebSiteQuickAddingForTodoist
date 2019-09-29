@@ -7,5 +7,13 @@
   "extensionDescription": {
     "message": "Add the current web site URL as new Inbox Task in your Todoist.",
     "description": "Description of the extension."
+  },
+  
+  "taskAddConfirmationTitle": {
+    "message": "Task added"
+  },
+  
+  "taskAddConfirmationMessage": {
+    "message": "Task added in your Inbox."
   }
 }

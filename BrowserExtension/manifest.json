@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "short_name" : "TODO",
-  "version": "0.0",
+  "version": "1.0-SNAPSHOT",
 
   "description": "__MSG_extensionDescription__",
   "default_locale": "fr",
@@ -12,13 +12,17 @@
   },
   
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+        "credentials.js",
+        "background.js"
+      ]
   },
   
   "permissions": [
     "tabs",
     "identity",
-    "storage"
+    "storage",
+    "notifications"
   ],
   
    "browser_action": {
