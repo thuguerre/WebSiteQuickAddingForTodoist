@@ -17,15 +17,15 @@ Basically, the extension has the following process, fired when the user clicks o
 
 1. Try to access the Todoist Access Token store in `Browser Storage`
 2. If no Access Token is found, launch Todoist Authorization Flow:
-  1. Prompt the Todoist Authentication Form, using [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity),
-  2. Get a valid OAuth Code, once user has authenticated
-  3. Call our Todoist Proxy API to transform this OAuth Code in a valid Access Token
-  4. Store the Access Token in `Browser Storage`
+    1. Prompt the Todoist Authentication Form, using [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity),
+    2. Get a valid OAuth Code, once user has authenticated
+    3. Call our `Todoist Proxy API` to transform this OAuth Code in a valid Access Token
+    4. Store the Access Token in `Browser Storage`
 3. Launch the Task Add Flow:
-  1. Get active tab, to retrieve its URL
-  2. Call [Todoist Rest API](https://developer.todoist.com/rest/v1/#create-a-new-task) to add the task
-  3. If task add is a success, confirm the user the task has been added, using [Browser Notification API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
-  4. If task add has failed due to Authorization reasons, revoke the Access Token and go to `Step 2` 
+    1. Get active tab, to retrieve its URL
+    2. Call [Todoist Rest API](https://developer.todoist.com/rest/v1/#create-a-new-task) to add the task
+    3. If task add is a success, confirm the user the task has been added, using [Browser Notification API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
+    4. If task add has failed due to Authorization reasons, revoke the Access Token and go to `Step 2` 
 
 ### How to set up the project ?
 
@@ -62,7 +62,7 @@ where:
 
 ## Resources
 - [Todoist REST API Documentation](https://developer.todoist.com/rest/v1/#create-a-new-task), for Task Add Service
-- [Todoist Sync API Documentation](https://developer.todoist.com/sync/v8/#authorization), for Todoist Authorization Flow, based on OAuth
+- [Todoist Sync API Documentation](https://developer.todoist.com/sync/v8/#authorization), for Todoist Authorization Flow, based on OAuth protocol
 - [Browser Extension Mozilla Documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension)
 - [Browser Notifications API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
 - [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity)
