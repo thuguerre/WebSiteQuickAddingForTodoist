@@ -4,9 +4,9 @@
 
 # Project Description
 
-This **unofficial** Todoist browser extension allows its user to add its current web site's URL as a new Task in his Todoist Inbox, just by clicking on a single button. It completes the official Todoist browser extension, allowing the same use case but with a 4-clicks process.    
+This ***unofficial*** Todoist browser extension allows its user to add its current web site's URL as a new Task in his Todoist Inbox, just by clicking on a single button. It completes the official Todoist browser extension, allowing the same use case but with a 4-clicks process from the browser header, or a 2-clicks process using right-click menu on page.      
 
-For the moment, this project will only provide this single and quite simple functionnality. It may add other ones later, such as a right-click menu, or the possibility to add inner-page links as tasks.     
+For the moment, this project will only provide this single and quite simple functionnality.     
 
 # For developers and/or contributors
 
@@ -83,6 +83,8 @@ Do not hesitate to click on Extension `Debug` button to have a look at the exten
 # Resources
 - [Todoist REST API Documentation](https://developer.todoist.com/rest/v1/#create-a-new-task), for Task Add Service
 - [Todoist Sync API Documentation](https://developer.todoist.com/sync/v8/#authorization), for Todoist Authorization Flow, based on OAuth protocol
+- [Todoist Brand Usage Limits](https://developer.todoist.com/sync/v8/#brand-usage) 
 - [Browser Extension Mozilla Documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension)
 - [Browser Notifications API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
 - [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity)
+- [Browser Storage API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage)
