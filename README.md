@@ -96,3 +96,4 @@ Do not hesitate to click on Extension `Debug` button to have a look at the exten
 - [Browser Notifications API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
 - [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity)
 - [Chrome portability from WebExtension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Chrome_incompatibilities)
+- [Chrome Extension Debugging](https://developer.chrome.com/extensions/tut_debugging)
