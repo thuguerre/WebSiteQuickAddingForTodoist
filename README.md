@@ -81,10 +81,17 @@ Under your Firefox browser (**not yet tested under Chrome**)
 Do not hesitate to click on Extension `Debug` button to have a look at the extension's logs.    
 
 # Resources
+
+## Todoist
 - [Todoist REST API Documentation](https://developer.todoist.com/rest/v1/#create-a-new-task), for Task Add Service
 - [Todoist Sync API Documentation](https://developer.todoist.com/sync/v8/#authorization), for Todoist Authorization Flow, based on OAuth protocol
-- [Todoist Brand Usage Limits](https://developer.todoist.com/sync/v8/#brand-usage) 
+- [Todoist Brand Usage Limits](https://developer.todoist.com/sync/v8/#brand-usage)
+
+## Browser Extension 
 - [Browser Extension Mozilla Documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension)
 - [Browser Notifications API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
 - [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity)
 - [Browser Storage API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage)
+
+## GCP AppEngine
+- [API Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/blob/master/appengine-java8/endpoints-v2-backend/src/main/java/com/example/echo/Echo.java)
