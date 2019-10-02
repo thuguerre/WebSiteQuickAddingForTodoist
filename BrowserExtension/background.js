@@ -1,5 +1,6 @@
 const TASK_ADD_NOTIFICATION_ID = "task-add-notification";
-const TODOIST_ACCESS_TOKEN_STORAGE_ID = 'todoist_access_token';
+const TODOIST_ACCESS_TOKEN_STORAGE_ID = "todoist_access_token";
+const TODOIST_PROXY_API_REDIRECT_URL = "https://todoistquickwebsiteadd.appspot.com/api/todoistProxyAPI/v1/oauth-callback";
 var todoist_access_token;
 
 // all starts from this listener set on browser extension button click
@@ -46,7 +47,7 @@ function startTodoistAuthorizationFlow() {
 
   console.log("start todoist authorization flow");
   
-  const redirectURL = browser.identity.getRedirectURL();
+  const redirectURL = TODOIST_PROXY_API_REDIRECT_URL;
   const scopes = ["task:add", "data:read_write"];
   const state = uuidv4(); 
   
@@ -56,7 +57,7 @@ function startTodoistAuthorizationFlow() {
   authURL += `?client_id=${CLIENT_ID}`;
   authURL += `&scope=${encodeURIComponent(scopes.join(','))}`;
   authURL += `&state=${state}`;
-  // authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
+  authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
             
   return browser.identity.launchWebAuthFlow({
     interactive: true,
@@ -65,7 +66,9 @@ function startTodoistAuthorizationFlow() {
 }
 
 function retrieveTodoistToken(redirectURL) {
- 
+
+  console.log("retrieveTodoistToken");
+   
   const state = redirectURL.match(/state=([0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12})/)[1];
   const code = redirectURL.match(/code=([0-9a-fA-F]{40})/)[1];
 
