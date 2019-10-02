@@ -94,4 +94,6 @@ Do not hesitate to click on Extension `Debug` button to have a look at the exten
 - [Browser Storage API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage)
 
 ## GCP AppEngine
-- [API Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/blob/master/appengine-java8/endpoints-v2-backend/src/main/java/com/example/echo/Echo.java)
+- [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend)
+- [Google Cloud Endpoints Param and Return Types](https://cloud.google.com/endpoints/docs/frameworks/java/parameter-and-return-types)
+
