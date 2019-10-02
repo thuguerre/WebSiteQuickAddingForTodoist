@@ -88,3 +88,5 @@ Do not hesitate to click on Extension `Debug` button to have a look at the exten
 - [Browser Notifications API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
 - [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity)
 - [Browser Storage API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage)
+- [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend)
+- [Google Cloud Endpoints Param and Return Types](https://cloud.google.com/endpoints/docs/frameworks/java/parameter-and-return-types)
