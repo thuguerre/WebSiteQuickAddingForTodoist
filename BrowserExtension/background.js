@@ -1,7 +1,7 @@
 const TASK_ADD_NOTIFICATION_ID = "task-add-notification";
-
 const TODOIST_ACCESS_TOKEN_STORAGE_ID = "todoist_access_token";
 
+const TODOIST_CLIENT_ID = "51ba8ae54b9146be839bd0561002f081";
 const TODOIST_AUTHORIZE_URL = "https://todoist.com/oauth/authorize";
 const TODOIST_ADD_TASK_API = "https://api.todoist.com/rest/v1/tasks";
 const TODOIST_SCOPES = ["task:add", "data:read_write"];

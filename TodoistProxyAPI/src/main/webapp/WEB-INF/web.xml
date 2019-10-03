@@ -33,7 +33,7 @@
         <servlet-name>EndpointsServlet</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
-    
+
     <!-- [START api_management] -->
     <!-- Add a filter that fetches the service config from service management. -->
     <filter>

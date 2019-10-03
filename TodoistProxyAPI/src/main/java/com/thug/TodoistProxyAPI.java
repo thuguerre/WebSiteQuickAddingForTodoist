@@ -32,8 +32,8 @@ public class TodoistProxyAPI {
 
 			Properties prop = new Properties();
 			prop.load(input);
-			CLIENT_ID = prop.getProperty("CLIENT_ID");
-			CLIENT_SECRET = prop.getProperty("CLIENT_SECRET");
+			CLIENT_ID = prop.getProperty("TODOIST_CLIENT_ID");
+			CLIENT_SECRET = prop.getProperty("TODOIST_CLIENT_SECRET");
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
