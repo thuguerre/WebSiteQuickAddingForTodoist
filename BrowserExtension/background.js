@@ -1,7 +1,14 @@
 const TASK_ADD_NOTIFICATION_ID = "task-add-notification";
+
 const TODOIST_ACCESS_TOKEN_STORAGE_ID = "todoist_access_token";
+
+const TODOIST_AUTHORIZE_URL = "https://todoist.com/oauth/authorize";
+const TODOIST_ADD_TASK_API = "https://api.todoist.com/rest/v1/tasks";
+const TODOIST_SCOPES = ["task:add", "data:read_write"];
+
 const TODOIST_PROXY_API_REDIRECT_URL = "https://todoistquickwebsiteadd.appspot.com/api/todoistProxyAPI/v1/oauth-callback";
 const TODOIST_PROXY_API_ACCESS_TOKEN = "https://todoistquickwebsiteadd.appspot.com/api/todoistProxyAPI/v1/access-token/";
+
 var todoist_access_token;
 
 // all starts from this listener set on browser extension button click
@@ -48,17 +55,17 @@ function startTodoistAuthorizationFlow() {
 
   console.log("start todoist authorization flow");
   
-  const redirectURL = TODOIST_PROXY_API_REDIRECT_URL;
-  const scopes = ["task:add", "data:read_write"];
+  // const redirectURL = TODOIST_PROXY_API_REDIRECT_URL;
+  const redirectURL = browser.identity.getRedirectURL();
   const state = uuidv4(); 
   
   console.log("Extension RedirectURL : " + redirectURL);
    
-  let authURL = "https://todoist.com/oauth/authorize";
+  let authURL = TODOIST_AUTHORIZE_URL;
   authURL += `?client_id=${CLIENT_ID}`;
-  authURL += `&scope=${encodeURIComponent(scopes.join(','))}`;
+  authURL += `&scope=${encodeURIComponent(TODOIST_SCOPES.join(','))}`;
   authURL += `&state=${state}`;
-  // TODO authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
+  authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
             
   return browser.identity.launchWebAuthFlow({
     interactive: true,
@@ -148,7 +155,7 @@ function onTabGot(tabInfo) {
       return launchAuthorizationFlow();
     }
   };
-  xhttp.open("POST", "https://api.todoist.com/rest/v1/tasks", true);
+  xhttp.open("POST", TODOIST_ADD_TASK_API, true);
   xhttp.setRequestHeader("Content-Type", "application/json");
   xhttp.setRequestHeader("X-Request-Id", "$(" + uuidv4() + ")");
   xhttp.setRequestHeader("Authorization", "Bearer " + todoist_access_token);
