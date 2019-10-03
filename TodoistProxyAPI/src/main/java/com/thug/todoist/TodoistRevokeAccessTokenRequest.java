@@ -1,4 +1,4 @@
-package com.thug;
+package com.thug.todoist;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

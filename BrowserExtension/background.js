@@ -6,8 +6,8 @@ const TODOIST_AUTHORIZE_URL = "https://todoist.com/oauth/authorize";
 const TODOIST_ADD_TASK_API = "https://api.todoist.com/rest/v1/tasks";
 const TODOIST_SCOPES = ["task:add", "data:read_write"];
 
-const TODOIST_PROXY_API_REDIRECT_URL = "https://todoistquickwebsiteadd.appspot.com/api/todoistProxyAPI/v1/oauth-callback";
 const TODOIST_PROXY_API_ACCESS_TOKEN = "https://todoistquickwebsiteadd.appspot.com/api/todoistProxyAPI/v1/access-token/";
+const REDIRECT_URL = browser.identity.getRedirectURL();
 
 var todoist_access_token;
 
@@ -55,17 +55,15 @@ function startTodoistAuthorizationFlow() {
 
   console.log("start todoist authorization flow");
   
-  // const redirectURL = TODOIST_PROXY_API_REDIRECT_URL;
-  const redirectURL = browser.identity.getRedirectURL();
   const state = uuidv4(); 
   
-  console.log("Extension RedirectURL : " + redirectURL);
+  console.log("Extension RedirectURL : " + REDIRECT_URL);
    
   let authURL = TODOIST_AUTHORIZE_URL;
   authURL += `?client_id=${CLIENT_ID}`;
   authURL += `&scope=${encodeURIComponent(TODOIST_SCOPES.join(','))}`;
   authURL += `&state=${state}`;
-  authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
+  authURL += `&redirect_uri=${encodeURIComponent(REDIRECT_URL)}`;
             
   return browser.identity.launchWebAuthFlow({
     interactive: true,
@@ -83,17 +81,15 @@ function retrieveTodoistToken(redirectURL) {
   console.log("OAUTH State got from Todoist : " + state);
   console.log("OAUTH Code got from Todoist : " + code);
   
+  var xhttpContent = "{\"state\":\"" + state + "\", \"code\":\"" + code + "\"}";
+  
   // call our Todoist Proxy API to exchange our state against a valid access token
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
   
     if (this.readyState == 4 && this.status == 200) {
 
-      console.log("Todoist Proxy API response : " + this.responseText);
-      var token = this.responseText.match(/\"message\":\"([0-9a-fA-F]{40})\"/)[1];
-      console.log("token got from ws : " + token);
-              
-      todoist_access_token = token;
+      todoist_access_token = this.responseText.match(/\"accessToken\": \"([0-9a-fA-F]{40})\"/)[1];
       console.log("valid access token got : " + todoist_access_token);
       
       // store the access token in browser storage to use it directly in a future call 
@@ -108,9 +104,9 @@ function retrieveTodoistToken(redirectURL) {
       console.error("error from API : " + this.responseText);
     }
   };
-  xhttp.open("GET", TODOIST_PROXY_API_ACCESS_TOKEN + state, true);
+  xhttp.open("POST", TODOIST_PROXY_API_ACCESS_TOKEN, true);
   xhttp.setRequestHeader("Content-Type", "application/json");
-  xhttp.send(null);
+  xhttp.send(xhttpContent);
   
   console.log("end of retrieveTodoistToken");
 }

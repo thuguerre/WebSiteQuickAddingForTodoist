@@ -4,6 +4,9 @@ import com.google.api.server.spi.config.*;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.thug.todoist.TodoistGetAccessTokenRequest;
+import com.thug.todoist.TodoistGetAccessTokenResponse;
+import com.thug.todoist.TodoistRevokeAccessTokenRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,11 +26,7 @@ public class TodoistProxyAPI {
 
 	private static String CLIENT_SECRET;
 
-	private Map<String, String> stateAccessTokens;
-
 	public TodoistProxyAPI() {
-
-		stateAccessTokens = new HashMap<String, String>();
 
 		try (InputStream input = getClass().getResourceAsStream("/credentials.properties")) {
 
@@ -41,60 +40,25 @@ public class TodoistProxyAPI {
 		}
 	}
 
-	@ApiMethod(path = "oauth-callback", httpMethod = ApiMethod.HttpMethod.GET)
-	public Message oauthCallback(@Named("code") String code, @Named("state") String state) {
+	@ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.POST)
+	public AccessTokenResponse accessToken(AccessTokenRequest request) {
 
 		Client client = Client.create();
 		WebResource webResource = client.resource(todoistGetAccessTokenApi);
 
-		TodoistGetAccessTokenRequest request = new TodoistGetAccessTokenRequest(CLIENT_ID, CLIENT_SECRET, code);
+		TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(CLIENT_ID, CLIENT_SECRET, request.getCode());
 
-		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, request);
+		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
+		TodoistGetAccessTokenResponse output = response.getEntity(TodoistGetAccessTokenResponse.class);
 
-		// Status 200 is successful.
-		if (response.getStatus() != 200) {
-			// TODO throw exception
-			// returning a success message
-			Message msg = new Message();
-			msg.setMessage("ko status=" + response.getStatus() + " error=" + response.getEntity(String.class));
-			return msg;
-
-		} else {
-
-			TodoistGetAccessTokenResponse output = response.getEntity(TodoistGetAccessTokenResponse.class);
-
-			// storing access token in memory, ready to be retrieved by extension
-			stateAccessTokens.put(state, output.getAccessToken());
-
-			// returning a success message
-			Message msg = new Message();
-			msg.setMessage("access token ready");
-			return msg;
-		}
-	}
-
-	@ApiMethod(path = "access-token/{state}", httpMethod = ApiMethod.HttpMethod.GET)
-	public Message accessToken(@Named("state") String state) {
-
-		if (stateAccessTokens.containsKey(state)) {
-
-			String accessToken = stateAccessTokens.get(state);
-			stateAccessTokens.remove(state);
-
-			Message msg = new Message();
-			msg.setMessage(accessToken);
-			return msg;
-
-		} else {
-
-			Message msg = new Message();
-			msg.setMessage("ko");
-			return msg;
-		}
+		// returning a success message
+		AccessTokenResponse msg = new AccessTokenResponse();
+		msg.setAccessToken(output.getAccessToken());
+		return msg;
 	}
 
 	@ApiMethod(path = "access-token/{token}", httpMethod = ApiMethod.HttpMethod.DELETE)
-	public Message accessTokenRevoke(@Named("token") String token) {
+	public AccessTokenResponse accessTokenRevoke(@Named("token") String token) {
 
 		Client client = Client.create();
 		WebResource webResource = client.resource(todoistRevokeAccessTokenApi);
@@ -107,14 +71,14 @@ public class TodoistProxyAPI {
 		if (response.getStatus() != 204) {
 			// TODO throw exception
 			// returning a success message
-			Message msg = new Message();
-			msg.setMessage("ko status=" + response.getStatus() + " error=" + response.getEntity(String.class));
+			AccessTokenResponse msg = new AccessTokenResponse();
+			msg.setAccessToken("ko status=" + response.getStatus() + " error=" + response.getEntity(String.class));
 			return msg;
 		}
 
 		// returning a success message
-		Message msg = new Message();
-		msg.setMessage("access token revoked");
+		AccessTokenResponse msg = new AccessTokenResponse();
+		msg.setAccessToken("access token revoked");
 		return msg;
 	}
 }
