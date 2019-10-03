@@ -30,15 +30,15 @@ function gotAccessTokenFromStorage(result) {
   todoist_access_token = result[TODOIST_ACCESS_TOKEN_STORAGE_ID];
   
   if(todoist_access_token == null || typeof todoist_access_token != 'string') {
-     onErrorToGetAccessTokenFromStorage("sucessfully accessed the browser storage but no valid token value found");
+     onErrorToGetAccessTokenFromStorage();
   } else {
     console.log("got access token from sync storage : " + todoist_access_token);
     launchAddTaskFlow();    
   }  
 }
 
-function onErrorToGetAccessTokenFromStorage(error) {
-  console.info("no token got from browser storage : " + error);
+function onErrorToGetAccessTokenFromStorage() {
+  console.info("no token got from browser storage");
   cleanAccessTokenFromEveryWhere(); 
   launchAuthorizationFlow();
 }
@@ -200,13 +200,32 @@ function uuidv4() {
 
 
 function cleanAccessTokenFromEveryWhere() {
-   
-  todoist_access_token = null;
+
+  // clearing the access token the browser storage   
   browser.storage.local.remove(TODOIST_ACCESS_TOKEN_STORAGE_ID);
   console.log("access token remove from browser storage");
+  
+  // call our Todoist Proxy API to revoke the access token
+  var xhttpContent = "{\"accessToken\":\"" + todoist_access_token + "\"}";
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+  
+    if (this.readyState == 4 && this.status == 200) {
+
+      console.log("access token revoked from Todoist.");
+      console.log(this.responseText);
+                  
+    } else if (this.readyState == 4) {
       
-  // TODO has to call our own revoke API for this access token
-  console.log("access token revoked from Todoist.");
-      
+      console.warn("unable to revoke the access token from Todoist. status=" + this.status);
+      console.warn("error from API : " + this.responseText);
+    }
+  };
+  xhttp.open("DELETE", TODOIST_PROXY_API_ACCESS_TOKEN, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send(xhttpContent);
+
+  // clearing 'local' variable
+  todoist_access_token = null;      
   console.info("access token revoked from everywhere.");
 }
