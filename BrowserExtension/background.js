@@ -1,6 +1,7 @@
 const TASK_ADD_NOTIFICATION_ID = "task-add-notification";
 const TODOIST_ACCESS_TOKEN_STORAGE_ID = "todoist_access_token";
 const TODOIST_PROXY_API_REDIRECT_URL = "https://todoistquickwebsiteadd.appspot.com/api/todoistProxyAPI/v1/oauth-callback";
+const TODOIST_PROXY_API_ACCESS_TOKEN = "https://todoistquickwebsiteadd.appspot.com/api/todoistProxyAPI/v1/access-token/";
 var todoist_access_token;
 
 // all starts from this listener set on browser extension button click
@@ -30,9 +31,9 @@ function gotAccessTokenFromStorage(result) {
 }
 
 function onErrorToGetAccessTokenFromStorage(error) {
-  console.log("No token got from browser storage : " + error);
+  console.info("no token got from browser storage : " + error);
   cleanAccessTokenFromEveryWhere(); 
-  launchAuthorizationFlow().then(launchAddTaskFlow);
+  launchAuthorizationFlow();
 }
 
 
@@ -57,7 +58,7 @@ function startTodoistAuthorizationFlow() {
   authURL += `?client_id=${CLIENT_ID}`;
   authURL += `&scope=${encodeURIComponent(scopes.join(','))}`;
   authURL += `&state=${state}`;
-  authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
+  // TODO authURL += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
             
   return browser.identity.launchWebAuthFlow({
     interactive: true,
@@ -67,20 +68,44 @@ function startTodoistAuthorizationFlow() {
 
 function retrieveTodoistToken(redirectURL) {
 
-  console.log("retrieveTodoistToken");
+  console.log("start retrieveTodoistToken");
    
   const state = redirectURL.match(/state=([0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12})/)[1];
   const code = redirectURL.match(/code=([0-9a-fA-F]{40})/)[1];
 
-  console.log("OAUTH State : " + state);
-  console.log("OAUTH Code : " + code);
+  console.log("OAUTH State got from Todoist : " + state);
+  console.log("OAUTH Code got from Todoist : " + code);
   
-  // TODO replace the following line by a call to my own API to retrieve token from code
-  todoist_access_token = TEMP_TOKEN;
-  console.log("valid access token got : " + todoist_access_token);
+  // call our Todoist Proxy API to exchange our state against a valid access token
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
   
-  // store the access token in browser storage to use it directly in a future call 
-  setTodoistAccessTokenInBrowserStorage(todoist_access_token);   
+    if (this.readyState == 4 && this.status == 200) {
+
+      console.log("Todoist Proxy API response : " + this.responseText);
+      var token = this.responseText.match(/\"message\":\"([0-9a-fA-F]{40})\"/)[1];
+      console.log("token got from ws : " + token);
+              
+      todoist_access_token = token;
+      console.log("valid access token got : " + todoist_access_token);
+      
+      // store the access token in browser storage to use it directly in a future call 
+      setTodoistAccessTokenInBrowserStorage(todoist_access_token);   
+
+      // now we have authenticated the user, we can launch the addtask Flow
+      launchAddTaskFlow();
+            
+    } else if (this.readyState == 4) {
+      
+      console.error("token not retrieved from Proxy API ; status=" + this.status);
+      console.error("error from API : " + this.responseText);
+    }
+  };
+  xhttp.open("GET", TODOIST_PROXY_API_ACCESS_TOKEN + state, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send(null);
+  
+  console.log("end of retrieveTodoistToken");
 }
 
 
@@ -94,13 +119,13 @@ function launchAddTaskFlow() {
     // we retrieve the current and active tab to add its URL as a task
     browser.tabs.query({currentWindow: true, active: true}).then(onTabGot, onErrorToGetTab);
   } else {
-    console.log("-- ERROR -- launchAddTaskFlow has been called without a valid access token. Stop the flow.")
+    console.error("launchAddTaskFlow has been called without a valid access token. Stop the flow.")
   }
 }
 
 function onTabGot(tabInfo) {
 
-  console.log("active tab obtained");
+  console.log("active tab obtained.");
   console.log("getting active tab URL to add it as task in Todoist Inbox");
 
   // create the JSON data request, from current tab's URL      
@@ -112,16 +137,15 @@ function onTabGot(tabInfo) {
   xhttp.onreadystatechange = function() {
   
     if (this.readyState == 4 && this.status == 200) {    
-      console.log("task added !");
+      console.info("URL added as task in Inbox !");
       confirmTaskCreationToUser();
       
     } else if (this.readyState == 4 && this.status == 403) {
       
-      console.log("token not authorized to add task.");
-      console.log("revoking it, and ask for a new one.");
+      console.warn("token not authorized to add task. revoking it, and ask for a new one.");
       
       cleanAccessTokenFromEveryWhere();    
-      return launchAuthorizationFlow().then(launchAddTaskFlow);
+      return launchAuthorizationFlow();
     }
   };
   xhttp.open("POST", "https://api.todoist.com/rest/v1/tasks", true);
@@ -132,7 +156,7 @@ function onTabGot(tabInfo) {
 }
 
 function onErrorToGetTab(error) {
-  console.error;
+  console.error(error);
 }
 
 function confirmTaskCreationToUser() {
@@ -155,11 +179,11 @@ function setTodoistAccessTokenInBrowserStorage(token) {
 }
 
 function onTokenStoredToBrowserStorage() {
-  console.log("token has been stored in browser storage for a future reuse.");
+  console.info("token has been stored in browser storage for a future reuse.");
 }
 
 function onErrorToStoreTokenInBrowserStorage(error) {
-  console.log("fail to store acess token in browser storage : " + error);
+  console.error("fail to store acess token in browser storage : " + error);
 }
 
 
@@ -176,12 +200,12 @@ function uuidv4() {
 
 function cleanAccessTokenFromEveryWhere() {
    
-      todoist_access_token = null;
-      browser.storage.local.remove(TODOIST_ACCESS_TOKEN_STORAGE_ID);
-      console.log("access token remove from browser storage");
+  todoist_access_token = null;
+  browser.storage.local.remove(TODOIST_ACCESS_TOKEN_STORAGE_ID);
+  console.log("access token remove from browser storage");
       
-      // TODO has to call our own revoke API for this access token
-      console.log("access token revoked");
+  // TODO has to call our own revoke API for this access token
+  console.log("access token revoked from Todoist.");
       
-      console.log("access token cleaned from everywhere.");
+  console.info("access token revoked from everywhere.");
 }
