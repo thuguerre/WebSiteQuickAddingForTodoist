@@ -65,12 +65,12 @@ Regarding the extension part, the `TODOIST_CLIENT_ID` (and only it) is set in th
 
 These are the command lines to execute to build and deploy API on Google Cloud Platform AppEngine. They come from [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend).
 
-> Be careful, the official GCP Application ID is set in the configuration files (Java and Javascript). You will not have rights to deploy on it. You will first need to generate your own GCP Application ID, modify the configuration files before executing command lines.   
+> Be careful, the official GCP Application ID is set in the configuration files (Java and Javascript). You will not have rights to deploy on it. You will first need to generate your own GCP Application ID and modify the configuration files before executing command lines.   
 
-> mvn clean package  
-> mvn endpoints-framework:openApiDocs  
-> gcloud endpoints services deploy target/openapi-docs/openapi.json   
-> mvn appengine:deploy  
+> 1. mvn clean package  
+> 2. mvn endpoints-framework:openApiDocs  
+> 3. gcloud endpoints services deploy target/openapi-docs/openapi.json   
+> 4. mvn appengine:deploy  
  
 
 ### How to test the extension ?
