@@ -54,13 +54,11 @@ function launchAuthorizationFlow() {
 function startTodoistAuthorizationFlow() {
 
   console.log("start todoist authorization flow");
-  
+  console.log("extension's RedirectURL : " + REDIRECT_URL);  
   const state = uuidv4(); 
-  
-  console.log("Extension RedirectURL : " + REDIRECT_URL);
-   
+                   
   let authURL = TODOIST_AUTHORIZE_URL;
-  authURL += `?client_id=${CLIENT_ID}`;
+  authURL += `?client_id=${TODOIST_CLIENT_ID}`;
   authURL += `&scope=${encodeURIComponent(TODOIST_SCOPES.join(','))}`;
   authURL += `&state=${state}`;
   authURL += `&redirect_uri=${encodeURIComponent(REDIRECT_URL)}`;
@@ -90,7 +88,7 @@ function retrieveTodoistToken(redirectURL) {
     if (this.readyState == 4 && this.status == 200) {
 
       todoist_access_token = this.responseText.match(/\"accessToken\": \"([0-9a-fA-F]{40})\"/)[1];
-      console.log("valid access token got : " + todoist_access_token);
+      console.log("access token : " + todoist_access_token);
       
       // store the access token in browser storage to use it directly in a future call 
       setTodoistAccessTokenInBrowserStorage(todoist_access_token);   

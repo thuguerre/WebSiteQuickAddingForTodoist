@@ -29,5 +29,11 @@
     "default_icon": {
       "48": "icons/border-48.png"
     }
+  },
+  
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{be49d634-0856-4a12-938c-605416bf190d}"
+    }
   }
 }
