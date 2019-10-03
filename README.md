@@ -59,7 +59,7 @@ where:
 - `TODOIST_CLIENT_ID` value is the Client Id got from your [Todoist Application Console](https://developer.todoist.com/appconsole.html). It has the same value as in `background.js` file, in `BrowserExtension` directory.
 - `TODOIST_CLIENT_SECRET` value is the Secret Key got from your [Todoist Application Console](https://developer.todoist.com/appconsole.html).
 
-Regarding the extension part, the `TODOIST_CLIENT_ID` (and only it) is set in the header of `background.js`. Of course both `TODOIST_CLIENT_ID` in Java and Javascript parts have to be equal.       
+Regarding the extension part, the `TODOIST_CLIENT_ID` (and only it) is set in the header of `background.js`. Of course, `TODOIST_CLIENT_ID` in both Java and Javascript parts have to be equal.       
 
 ### How to build and deploy the API ?
 
@@ -67,10 +67,10 @@ These are the command lines to execute to build and deploy API on Google Cloud P
 
 > Be careful, the official GCP Application ID is set in the configuration files (Java and Javascript). You will not have rights to deploy on it. You will first need to generate your own GCP Application ID, modify the configuration files before executing command lines.   
 
-> mvn clean package
-> mvn endpoints-framework:openApiDocs
-> gcloud endpoints services deploy target/openapi-docs/openapi.json 
-> mvn appengine:deploy
+> mvn clean package  
+> mvn endpoints-framework:openApiDocs  
+> gcloud endpoints services deploy target/openapi-docs/openapi.json   
+> mvn appengine:deploy  
  
 
 ### How to test the extension ?
