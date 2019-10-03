@@ -78,11 +78,11 @@ public class TodoistProxyAPI {
 
 		if (stateAccessTokens.containsKey(state)) {
 
-			String code = stateAccessTokens.get(state);
+			String accessToken = stateAccessTokens.get(state);
 			stateAccessTokens.remove(state);
 
 			Message msg = new Message();
-			msg.setMessage(code);
+			msg.setMessage(accessToken);
 			return msg;
 
 		} else {
