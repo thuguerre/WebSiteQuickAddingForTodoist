@@ -18,7 +18,7 @@ function clickOnButton() {
 
   // TODO delete once useless
   // setTodoistAccessTokenInBrowserStorage(TEMP_TOKEN);
-  cleanAccessTokenFromEveryWhere();
+  // cleanAccessTokenFromEveryWhere();
     
   // trying to get access token from storage
   browser.storage.local.get(TODOIST_ACCESS_TOKEN_STORAGE_ID).then(gotAccessTokenFromStorage, onErrorToGetAccessTokenFromStorage);
@@ -161,7 +161,7 @@ function onErrorToGetTab(error) {
 }
 
 function confirmTaskCreationToUser() {
-  browser.notifications.create(TASK_ADD_NOTIFICATION_ID, {
+  return browser.notifications.create(TASK_ADD_NOTIFICATION_ID, {
     "type": "basic",
     "iconUrl": browser.runtime.getURL("icons/border-48.png"),
     "title": browser.i18n.getMessage("taskAddConfirmationTitle"),
@@ -206,24 +206,33 @@ function cleanAccessTokenFromEveryWhere() {
   console.log("access token remove from browser storage");
   
   // call our Todoist Proxy API to revoke the access token
-  var xhttpContent = "{\"accessToken\":\"" + todoist_access_token + "\"}";
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
+  if(todoist_access_token == null) {
   
-    if (this.readyState == 4 && this.status == 200) {
-
-      console.log("access token revoked from Todoist.");
-      console.log(this.responseText);
-                  
-    } else if (this.readyState == 4) {
-      
-      console.warn("unable to revoke the access token from Todoist. status=" + this.status);
-      console.warn("error from API : " + this.responseText);
-    }
-  };
-  xhttp.open("DELETE", TODOIST_PROXY_API_ACCESS_TOKEN, true);
-  xhttp.setRequestHeader("Content-Type", "application/json");
-  xhttp.send(xhttpContent);
+    console.log("todoist_access_token is null. do not call API");
+    
+  } else {
+  
+    console.log("access_token to revoke : " + todoist_access_token);
+    
+    var xhttpContent = "{\"accessToken\":\"" + todoist_access_token + "\"}";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    
+      if (this.readyState == 4 && this.status == 200) {
+  
+        console.log("access token revoked from Todoist.");
+        console.log(this.responseText);
+                    
+      } else if (this.readyState == 4) {
+        
+        console.warn("unable to revoke the access token from Todoist. status=" + this.status);
+        console.warn("error from API : " + this.responseText);
+      }
+    };
+    xhttp.open("DELETE", TODOIST_PROXY_API_ACCESS_TOKEN, true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.send(xhttpContent);
+  }
 
   // clearing 'local' variable
   todoist_access_token = null;      
