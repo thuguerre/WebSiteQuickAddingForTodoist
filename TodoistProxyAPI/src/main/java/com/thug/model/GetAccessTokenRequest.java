@@ -1,12 +1,12 @@
-package com.thug;
+package com.thug.model;
 
-public class AccessTokenRequest {
+public class GetAccessTokenRequest {
 
     private String code;
 
     private String state;
 
-    public AccessTokenRequest() {
+    public GetAccessTokenRequest() {
     }
 
     public String getCode() {

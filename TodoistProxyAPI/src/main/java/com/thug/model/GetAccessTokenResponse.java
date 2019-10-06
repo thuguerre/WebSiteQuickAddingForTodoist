@@ -1,6 +1,6 @@
-package com.thug;
+package com.thug.model;
 
-public class AccessTokenResponse {
+public class GetAccessTokenResponse {
 
   private String access_token;
 

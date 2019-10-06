@@ -15,11 +15,7 @@ var todoist_access_token;
 browser.browserAction.onClicked.addListener(clickOnButton);
 
 function clickOnButton() {
-
-  // TODO delete once useless
-  // setTodoistAccessTokenInBrowserStorage(TEMP_TOKEN);
-  cleanAccessTokenFromEveryWhere();
-    
+      
   // trying to get access token from storage
   browser.storage.local.get(TODOIST_ACCESS_TOKEN_STORAGE_ID).then(gotAccessTokenFromStorage, onErrorToGetAccessTokenFromStorage);
 }
@@ -30,15 +26,15 @@ function gotAccessTokenFromStorage(result) {
   todoist_access_token = result[TODOIST_ACCESS_TOKEN_STORAGE_ID];
   
   if(todoist_access_token == null || typeof todoist_access_token != 'string') {
-     onErrorToGetAccessTokenFromStorage("sucessfully accessed the browser storage but no valid token value found");
+     onErrorToGetAccessTokenFromStorage();
   } else {
     console.log("got access token from sync storage : " + todoist_access_token);
     launchAddTaskFlow();    
   }  
 }
 
-function onErrorToGetAccessTokenFromStorage(error) {
-  console.info("no token got from browser storage : " + error);
+function onErrorToGetAccessTokenFromStorage() {
+  console.info("no token got from browser storage");
   cleanAccessTokenFromEveryWhere(); 
   launchAuthorizationFlow();
 }
@@ -144,9 +140,8 @@ function onTabGot(tabInfo) {
     } else if (this.readyState == 4 && this.status == 403) {
       
       console.warn("token not authorized to add task. revoking it, and ask for a new one.");
-      
-      cleanAccessTokenFromEveryWhere();    
-      return launchAuthorizationFlow();
+            
+      return cleanAccessTokenFromEveryWhere().then(launchAuthorizationFlow);    
     }
   };
   xhttp.open("POST", TODOIST_ADD_TASK_API, true);
@@ -161,7 +156,7 @@ function onErrorToGetTab(error) {
 }
 
 function confirmTaskCreationToUser() {
-  browser.notifications.create(TASK_ADD_NOTIFICATION_ID, {
+  return browser.notifications.create(TASK_ADD_NOTIFICATION_ID, {
     "type": "basic",
     "iconUrl": browser.runtime.getURL("icons/border-48.png"),
     "title": browser.i18n.getMessage("taskAddConfirmationTitle"),
@@ -188,6 +183,60 @@ function onErrorToStoreTokenInBrowserStorage(error) {
 }
 
 
+
+/* 
+ * REVOKING ACCESS TOKEN
+ */
+function cleanAccessTokenFromEveryWhere() {
+
+  // clearing 'local' variable
+  todoist_access_token = null;      
+  
+  // trying to get access token from storage
+  return browser.storage.local.get(TODOIST_ACCESS_TOKEN_STORAGE_ID).then(gotAccessTokenToRevokeFromStorage);
+}
+
+function gotAccessTokenToRevokeFromStorage(result) {
+
+  var token = result[TODOIST_ACCESS_TOKEN_STORAGE_ID];
+  
+  // clearing the access token the browser storage   
+  browser.storage.local.remove(TODOIST_ACCESS_TOKEN_STORAGE_ID);
+  console.log("access token remove from browser storage");
+  
+  // call our Todoist Proxy API to revoke the access token
+  if(token == null) {
+  
+    console.log("storage token is null. do not call API");
+    
+  } else {
+  
+    console.log("access_token to revoke : " + token);
+    
+    var xhttpContent = "{\"accessToken\":\"" + token + "\"}";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    
+      if (this.readyState == 4 ) {
+      
+        if(this.status == 200 && this.responseText.includes("access token revoked")) {
+  
+          console.log("access token revoked from Todoist.");
+                    
+        } else {
+        
+          console.warn("unable to revoke the access token from Todoist. status=" + this.status);
+          console.warn("error from API : " + this.responseText);
+        }
+      }
+    };
+    xhttp.open("DELETE", TODOIST_PROXY_API_ACCESS_TOKEN, true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.send(xhttpContent);
+  }
+}
+
+
 /* 
  * TOOLS
  */
@@ -196,17 +245,4 @@ function uuidv4() {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
-}
-
-
-function cleanAccessTokenFromEveryWhere() {
-   
-  todoist_access_token = null;
-  browser.storage.local.remove(TODOIST_ACCESS_TOKEN_STORAGE_ID);
-  console.log("access token remove from browser storage");
-      
-  // TODO has to call our own revoke API for this access token
-  console.log("access token revoked from Todoist.");
-      
-  console.info("access token revoked from everywhere.");
 }
