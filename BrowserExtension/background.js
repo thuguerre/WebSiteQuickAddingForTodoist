@@ -15,11 +15,7 @@ var todoist_access_token;
 browser.browserAction.onClicked.addListener(clickOnButton);
 
 function clickOnButton() {
-
-  // TODO delete once useless
-  // setTodoistAccessTokenInBrowserStorage(TEMP_TOKEN);
-  // cleanAccessTokenFromEveryWhere();
-    
+      
   // trying to get access token from storage
   browser.storage.local.get(TODOIST_ACCESS_TOKEN_STORAGE_ID).then(gotAccessTokenFromStorage, onErrorToGetAccessTokenFromStorage);
 }
@@ -144,9 +140,8 @@ function onTabGot(tabInfo) {
     } else if (this.readyState == 4 && this.status == 403) {
       
       console.warn("token not authorized to add task. revoking it, and ask for a new one.");
-      
-      cleanAccessTokenFromEveryWhere();    
-      return launchAuthorizationFlow();
+            
+      return cleanAccessTokenFromEveryWhere().then(launchAuthorizationFlow);    
     }
   };
   xhttp.open("POST", TODOIST_ADD_TASK_API, true);
@@ -188,6 +183,60 @@ function onErrorToStoreTokenInBrowserStorage(error) {
 }
 
 
+
+/* 
+ * REVOKING ACCESS TOKEN
+ */
+function cleanAccessTokenFromEveryWhere() {
+
+  // clearing 'local' variable
+  todoist_access_token = null;      
+  
+  // trying to get access token from storage
+  return browser.storage.local.get(TODOIST_ACCESS_TOKEN_STORAGE_ID).then(gotAccessTokenToRevokeFromStorage);
+}
+
+function gotAccessTokenToRevokeFromStorage(result) {
+
+  var token = result[TODOIST_ACCESS_TOKEN_STORAGE_ID];
+  
+  // clearing the access token the browser storage   
+  browser.storage.local.remove(TODOIST_ACCESS_TOKEN_STORAGE_ID);
+  console.log("access token remove from browser storage");
+  
+  // call our Todoist Proxy API to revoke the access token
+  if(token == null) {
+  
+    console.log("storage token is null. do not call API");
+    
+  } else {
+  
+    console.log("access_token to revoke : " + token);
+    
+    var xhttpContent = "{\"accessToken\":\"" + token + "\"}";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    
+      if (this.readyState == 4 ) {
+      
+        if(this.status == 200 && this.responseText.includes("access token revoked")) {
+  
+          console.log("access token revoked from Todoist.");
+                    
+        } else {
+        
+          console.warn("unable to revoke the access token from Todoist. status=" + this.status);
+          console.warn("error from API : " + this.responseText);
+        }
+      }
+    };
+    xhttp.open("DELETE", TODOIST_PROXY_API_ACCESS_TOKEN, true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.send(xhttpContent);
+  }
+}
+
+
 /* 
  * TOOLS
  */
@@ -196,45 +245,4 @@ function uuidv4() {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
-}
-
-
-function cleanAccessTokenFromEveryWhere() {
-
-  // clearing the access token the browser storage   
-  browser.storage.local.remove(TODOIST_ACCESS_TOKEN_STORAGE_ID);
-  console.log("access token remove from browser storage");
-  
-  // call our Todoist Proxy API to revoke the access token
-  if(todoist_access_token == null) {
-  
-    console.log("todoist_access_token is null. do not call API");
-    
-  } else {
-  
-    console.log("access_token to revoke : " + todoist_access_token);
-    
-    var xhttpContent = "{\"accessToken\":\"" + todoist_access_token + "\"}";
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-    
-      if (this.readyState == 4 && this.status == 200) {
-  
-        console.log("access token revoked from Todoist.");
-        console.log(this.responseText);
-                    
-      } else if (this.readyState == 4) {
-        
-        console.warn("unable to revoke the access token from Todoist. status=" + this.status);
-        console.warn("error from API : " + this.responseText);
-      }
-    };
-    xhttp.open("DELETE", TODOIST_PROXY_API_ACCESS_TOKEN, true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-    xhttp.send(xhttpContent);
-  }
-
-  // clearing 'local' variable
-  todoist_access_token = null;      
-  console.info("access token revoked from everywhere.");
 }
