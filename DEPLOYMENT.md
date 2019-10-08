@@ -2,6 +2,11 @@
 
 ## Java API
 
+These are the command lines to execute to build and deploy API on Google Cloud Platform AppEngine. They come from [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend).
+
+> Be careful, the real GCP Application ID is set in the configuration files (Java and Javascript). You will not have rights to deploy on it. You will first need to generate your own GCP Application ID and modify the configuration files before executing command lines.
+
+
 ### On Google Cloud Platform TEST Environment
 
 First be sure your `gcloud` SDK aims to the TEST Environment:  
