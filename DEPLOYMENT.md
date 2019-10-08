@@ -8,7 +8,7 @@ These are the command lines to execute to build and deploy API on Google Cloud P
 
 ### On Google Cloud Platform TEST Environment
 
-First be sure your `gcloud` SDK aims to the TEST Environment:  
+First be sure your Cloud SDK aims to the TEST Environment:  
 > gcloud config get-value project
 
 If the result is not `websitequickadding4todoisttest`, you can set it with:
@@ -29,7 +29,7 @@ If you have only modified the Java code itself, without modifying the API contra
 
 > **BE CAREFUL: you are going to deploy on PROD**  
 
-First be sure your `gcloud` SDK aims to the ***PROD*** Environment:  
+First be sure your Cloud SDK aims to the ***PROD*** Environment:  
 > gcloud config get-value project
 
 If the result is not `websitequickadding4todoistprod`, you can set it with:
