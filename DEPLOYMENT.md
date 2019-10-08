@@ -6,6 +6,12 @@ These are the command lines to execute to build and deploy API on Google Cloud P
 
 > Be careful, by default, the real GCP Application ID (for TEST environment) is set in the configuration files (Java and Javascript).
 
+### On your local machine
+
+TODO
+> set environment variable ENDPOINTS_SERVICE_NAME=websitequickadding4todoisttest.appspot.com
+> ${google-cloud-sdk}\bin\java_dev_appserver.cmd ./TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT
+
 ### On Google Cloud Platform TEST Environment
 
 First be sure your Cloud SDK aims to the TEST Environment:  
