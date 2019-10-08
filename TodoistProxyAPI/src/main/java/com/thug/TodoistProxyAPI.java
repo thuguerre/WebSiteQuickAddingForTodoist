@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@Api(name = "todoistProxyAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "todoistquickwebsiteadd.appspot.com", ownerName = "todoistquickwebsiteadd.appspot.com", packagePath = ""), issuers = {
-		@ApiIssuer(name = "firebase", issuer = "https://securetoken.google.com/todoistquickwebsiteadd", jwksUri = "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com") })
+@Api(name = "todoistProxyAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "websitequickadding4todoisttest.appspot.com", ownerName = "websitequickadding4todoisttest.appspot.com", packagePath = ""), issuers = {
+		@ApiIssuer(name = "firebase", issuer = "https://securetoken.google.com/websitequickadding4todoisttest", jwksUri = "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com") })
 public class TodoistProxyAPI {
 
 	private static final String TODOIST_GET_ACCESS_TOKEN_API = "https://todoist.com/oauth/access_token";
