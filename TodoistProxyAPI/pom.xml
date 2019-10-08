@@ -22,9 +22,25 @@
 
         <endpoints.framework.version>2.2.1</endpoints.framework.version>
         <endpoints.management.version>1.0.4</endpoints.management.version>
-
-        <endpoints.project.id>websitequickadding4todoisttest</endpoints.project.id>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>PROD</id>
+            <properties>
+                <endpoints.project.id>websitequickadding4todoistprod</endpoints.project.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>TEST</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <endpoints.project.id>websitequickadding4todoisttest</endpoints.project.id>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!-- Compile/runtime dependencies -->
