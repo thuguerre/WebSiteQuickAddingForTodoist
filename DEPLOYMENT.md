@@ -4,8 +4,7 @@
 
 These are the command lines to execute to build and deploy API on Google Cloud Platform AppEngine. They come from [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend).
 
-> Be careful, the real GCP Application ID is set in the configuration files (Java and Javascript). You will not have rights to deploy on it. You will first need to generate your own GCP Application ID and modify the configuration files before executing command lines.
-
+> Be careful, by default, the real GCP Application ID (for TEST environment) is set in the configuration files (Java and Javascript).
 
 ### On Google Cloud Platform TEST Environment
 
@@ -48,7 +47,16 @@ You can then build and deploy the Java API:
 If you have only modified the Java code itself, without modifying the API contract, you can only execute:
 > mvn appengine:deploy ***-P PROD***
 
-Always test the deployment to be sure all is right.  
+Always test the deployment to be sure all is right.
+
+### On your own Google Cloud Platform Environment
+
+If your are not allowed to deploy on TEST or PROD environemen, and you have to test modifications on Java API, you can also:
+1. Create your own GCP Environment
+2. Set your project ID in:
+  - `TodoistProxyAPI\pom.xml` (replacing property `endpoints.project.id`'s value in TEST profile for instance. You can also create your own profile if you want)
+  - `BrowserExtension\background.js` (modifying value of constant `TODOIST_PROXY_API_ACCESS_TOKEN`)
+3. Execute previous TEST deployment commands  
 
 
   
