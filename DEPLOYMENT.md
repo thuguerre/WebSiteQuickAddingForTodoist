@@ -58,5 +58,6 @@ If your are not allowed to deploy on TEST or PROD environemen, and you have to t
   - `BrowserExtension\background.js` (modifying value of constant `TODOIST_PROXY_API_ACCESS_TOKEN`)
 3. Execute previous TEST deployment commands  
 
+### Resources
 
-  
+- [Cloud SDK / gcloud app deploy](https://cloud.google.com/sdk/gcloud/reference/app/deploy)
