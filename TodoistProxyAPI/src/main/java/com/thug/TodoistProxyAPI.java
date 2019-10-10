@@ -11,6 +11,8 @@ import com.thug.model.RevokeAccessTokenRequest;
 import com.thug.todoist.TodoistGetAccessTokenRequest;
 import com.thug.todoist.TodoistGetAccessTokenResponse;
 import com.thug.todoist.TodoistRevokeAccessTokenRequest;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,9 +63,21 @@ public class TodoistProxyAPI {
 	}
 
 	@ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.POST)
-	public GetAccessTokenResponse accessToken(GetAccessTokenRequest request) {
+	public GetAccessTokenResponse accessToken(GetAccessTokenRequest request) throws BadRequestException {
 
 		loadConfiguration();
+
+		/**** Parameters verification ****/
+
+		if (request.getCode() == null) {
+			throw new BadRequestException("code cannot be null");
+		}
+
+		if (request.getState() == null) {
+			throw new BadRequestException("state cannot be null");
+		}
+
+		/**** Payload ****/
 
 		Client client = Client.create();
 		WebResource webResource = client.resource(TODOIST_GET_ACCESS_TOKEN_API);
@@ -80,13 +94,18 @@ public class TodoistProxyAPI {
 	}
 
 	@ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.DELETE)
+	@ApiResponse(code = 400, message = "Bad request")
 	public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request) throws BadRequestException {
 
 		loadConfiguration();
 
+		/**** Parameters verification ****/
+
 		if (request.getAccessToken() == null) {
 			throw new BadRequestException("token cannot be null");
 		}
+
+		/**** Payload ****/
 
 		Client client = Client.create();
 		WebResource webResource = client.resource(TODOIST_REVOKE_ACCESS_TOKEN_API);
