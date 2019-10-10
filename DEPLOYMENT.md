@@ -6,12 +6,6 @@ These are the command lines to execute to build and deploy API on Google Cloud P
 
 > Be careful, by default, the real GCP Application ID (for TEST environment) is set in the configuration files (Java and Javascript).
 
-### On your local machine
-
-TODO
-> set environment variable ENDPOINTS_SERVICE_NAME=websitequickadding4todoisttest.appspot.com
-> ${google-cloud-sdk}\bin\java_dev_appserver.cmd ./TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT
-
 ### On Google Cloud Platform TEST Environment
 
 First be sure your Cloud SDK aims to the TEST Environment:  
@@ -63,6 +57,17 @@ If your are not allowed to deploy on TEST or PROD environemen, and you have to t
   - `TodoistProxyAPI\pom.xml` (replacing property `endpoints.project.id`'s value in TEST profile for instance. You can also create your own profile if you want)
   - `BrowserExtension\background.js` (modifying value of constant `TODOIST_PROXY_API_ACCESS_TOKEN`)
 3. Execute previous TEST deployment commands  
+
+### On your local machine
+
+*** Local deployment is not working for the moment. I was not able to deploy Google Endpoints services locally. ***
+
+To deploy Java Application locally, you first have to set an environment variable on your machine  
+> ENDPOINTS_SERVICE_NAME=websitequickadding4todoisttest.appspot.com
+
+Then, you can build and deploy Java App:  
+> mvn clean package
+> ${google-cloud-sdk}\bin\java_dev_appserver.cmd ./TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT
 
 ### Resources
 
