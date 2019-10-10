@@ -1,6 +1,7 @@
 package com.thug;
 
 import com.google.api.server.spi.config.*;
+import com.google.api.server.spi.response.BadRequestException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -79,9 +80,13 @@ public class TodoistProxyAPI {
 	}
 
 	@ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.DELETE)
-	public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request) {
+	public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request) throws BadRequestException {
 
 		loadConfiguration();
+
+		if (request.getAccessToken() == null) {
+			throw new BadRequestException("token cannot be null");
+		}
 
 		Client client = Client.create();
 		WebResource webResource = client.resource(TODOIST_REVOKE_ACCESS_TOKEN_API);
