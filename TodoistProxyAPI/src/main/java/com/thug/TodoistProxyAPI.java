@@ -26,9 +26,9 @@ public class TodoistProxyAPI {
 
 	private static final Logger LOGGER = Logger.getLogger(TodoistProxyAPI.class.getName());
 
-	private String CLIENT_ID;
+	private String clientId;
 
-	private String CLIENT_SECRET;
+	private String clientSecret;
 
 	public TodoistProxyAPI() {
 		loadConfiguration();
@@ -36,18 +36,20 @@ public class TodoistProxyAPI {
 
 	private void loadConfiguration() {
 
-		if (CLIENT_ID == null || CLIENT_SECRET == null) {
+		if (clientId == null || clientSecret == null) {
 
 			try (InputStream input = getClass().getResourceAsStream("/credentials.properties")) {
 
 				Properties prop = new Properties();
 				prop.load(input);
-				CLIENT_ID = prop.getProperty("TODOIST_CLIENT_ID");
-				CLIENT_SECRET = prop.getProperty("TODOIST_CLIENT_SECRET");
+				clientId = prop.getProperty("TODOIST_CLIENT_ID");
+				clientSecret = prop.getProperty("TODOIST_CLIENT_SECRET");
 
 				LOGGER.info("configuration loaded.");
 
 			} catch (IOException ex) {
+
+				LOGGER.severe("error loading configuration");
 				ex.printStackTrace();
 			}
 
@@ -65,7 +67,7 @@ public class TodoistProxyAPI {
 		Client client = Client.create();
 		WebResource webResource = client.resource(TODOIST_GET_ACCESS_TOKEN_API);
 
-		TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(CLIENT_ID, CLIENT_SECRET, request.getCode());
+		TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(clientId, this.clientSecret, request.getCode());
 
 		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
 		TodoistGetAccessTokenResponse output = response.getEntity(TodoistGetAccessTokenResponse.class);
@@ -84,7 +86,7 @@ public class TodoistProxyAPI {
 		Client client = Client.create();
 		WebResource webResource = client.resource(TODOIST_REVOKE_ACCESS_TOKEN_API);
 
-		TodoistRevokeAccessTokenRequest todoistRequest = new TodoistRevokeAccessTokenRequest(CLIENT_ID, CLIENT_SECRET, request.getAccessToken());
+		TodoistRevokeAccessTokenRequest todoistRequest = new TodoistRevokeAccessTokenRequest(clientId, this.clientSecret, request.getAccessToken());
 
 		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
 
