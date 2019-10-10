@@ -60,13 +60,13 @@ If your are not allowed to deploy on TEST or PROD environemen, and you have to t
 
 ### On your local machine
 
-*** Local deployment is not working for the moment. I was not able to deploy Google Endpoints services locally. ***
+***Local deployment is not working for the moment. I was not able to deploy Google Endpoints services locally.***
 
 To deploy Java Application locally, you first have to set an environment variable on your machine  
 > ENDPOINTS_SERVICE_NAME=websitequickadding4todoisttest.appspot.com
 
 Then, you can build and deploy Java App:  
-> mvn clean package
+> mvn clean package  
 > ${google-cloud-sdk}\bin\java_dev_appserver.cmd ./TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT
 
 ### Resources
