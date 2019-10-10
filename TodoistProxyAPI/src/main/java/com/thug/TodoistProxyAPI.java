@@ -49,7 +49,7 @@ public class TodoistProxyAPI {
 
 			} catch (IOException ex) {
 
-				LOGGER.severe("error loading configuration");
+				LOGGER.severe("configuration loading error.");
 				ex.printStackTrace();
 			}
 
