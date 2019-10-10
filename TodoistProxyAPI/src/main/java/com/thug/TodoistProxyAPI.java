@@ -14,6 +14,7 @@ import com.thug.todoist.TodoistRevokeAccessTokenRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 @Api(name = "todoistProxyAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "${endpoints.project.id}.appspot.com", ownerName = "${endpoints.project.id}.appspot.com", packagePath = ""), issuers = {
 		@ApiIssuer(name = "firebase", issuer = "https://securetoken.google.com/${endpoints.project.id}", jwksUri = "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com") })
@@ -23,31 +24,50 @@ public class TodoistProxyAPI {
 
 	private static final String TODOIST_REVOKE_ACCESS_TOKEN_API = "https://api.todoist.com/sync/v8/access_tokens/revoke";
 
-	private static String CLIENT_ID;
+	private static final Logger LOGGER = Logger.getLogger(TodoistProxyAPI.class.getName());
 
-	private static String CLIENT_SECRET;
+	private String clientId;
+
+	private String clientSecret;
 
 	public TodoistProxyAPI() {
+		loadConfiguration();
+	}
 
-		try (InputStream input = getClass().getResourceAsStream("/credentials.properties")) {
+	private void loadConfiguration() {
 
-			Properties prop = new Properties();
-			prop.load(input);
-			CLIENT_ID = prop.getProperty("TODOIST_CLIENT_ID");
-			CLIENT_SECRET = prop.getProperty("TODOIST_CLIENT_SECRET");
+		if (clientId == null || clientSecret == null) {
 
-		} catch (IOException ex) {
-			ex.printStackTrace();
+			try (InputStream input = getClass().getResourceAsStream("/credentials.properties")) {
+
+				Properties prop = new Properties();
+				prop.load(input);
+				clientId = prop.getProperty("TODOIST_CLIENT_ID");
+				clientSecret = prop.getProperty("TODOIST_CLIENT_SECRET");
+
+				LOGGER.info("configuration loaded.");
+
+			} catch (IOException ex) {
+
+				LOGGER.severe("configuration loading error.");
+				ex.printStackTrace();
+			}
+
+		} else {
+
+			LOGGER.info("configuration already loaded. Do nothing.");
 		}
 	}
 
 	@ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.POST)
 	public GetAccessTokenResponse accessToken(GetAccessTokenRequest request) {
 
+		loadConfiguration();
+
 		Client client = Client.create();
 		WebResource webResource = client.resource(TODOIST_GET_ACCESS_TOKEN_API);
 
-		TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(CLIENT_ID, CLIENT_SECRET, request.getCode());
+		TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(clientId, this.clientSecret, request.getCode());
 
 		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
 		TodoistGetAccessTokenResponse output = response.getEntity(TodoistGetAccessTokenResponse.class);
@@ -61,10 +81,12 @@ public class TodoistProxyAPI {
 	@ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.DELETE)
 	public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request) {
 
+		loadConfiguration();
+
 		Client client = Client.create();
 		WebResource webResource = client.resource(TODOIST_REVOKE_ACCESS_TOKEN_API);
 
-		TodoistRevokeAccessTokenRequest todoistRequest = new TodoistRevokeAccessTokenRequest(CLIENT_ID, CLIENT_SECRET, request.getAccessToken());
+		TodoistRevokeAccessTokenRequest todoistRequest = new TodoistRevokeAccessTokenRequest(clientId, this.clientSecret, request.getAccessToken());
 
 		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
 

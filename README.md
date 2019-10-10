@@ -94,7 +94,8 @@ Do not hesitate to click on Extension `Debug` button to have a look at the exten
 
 ## GCP AppEngine
 - [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend)
-- [Google Cloud Endpoints Param and Return Types](https://cloud.google.com/endpoints/docs/frameworks/java/parameter-and-return-types)
+- [Google Cloud Endpoints Param and Return Types](https://cloud.google.com/endpoints/docs/frameworks/java/parameter-and-return-types)  
+- [Google AppEngine Logging](https://cloud.google.com/appengine/docs/standard/java/logs/)  
 
 ## API Client
 - [Create a Java RESTFul client with Jersey client](https://o7planning.org/fr/11217/creer-java-restful-client-avec-jersey-client#a4487792)
