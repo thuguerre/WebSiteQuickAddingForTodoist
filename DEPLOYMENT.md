@@ -71,4 +71,7 @@ Then, you can build and deploy Java App:
 
 ### Resources
 
-- [Cloud SDK / gcloud app deploy](https://cloud.google.com/sdk/gcloud/reference/app/deploy)
+- [Cloud SDK / gcloud app deploy](https://cloud.google.com/sdk/gcloud/reference/app/deploy)  
+- [Cloud SDK / Use Local Development Server](https://cloud.google.com/appengine/docs/standard/java/tools/using-local-server?hl=fr)  
+- [Cloud SDK / Deploy Java Application](https://cloud.google.com/appengine/docs/standard/java/tools/uploadinganapp?hl=fr)  
+- [OpenAPI / Deploy Endpoints Configuration](https://cloud.google.com/endpoints/docs/openapi/deploy-endpoints-config?hl=fr)  
