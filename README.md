@@ -63,7 +63,8 @@ Regarding the extension part, the `TODOIST_CLIENT_ID` (and only it) is set in th
 
 ### How to build and deploy the API ?
 
-See [deployment instructions](DEPLOYMENT.md).  
+See [deployment instructions](DEPLOYMENT.md).
+See [Java API Documentation](API_DOC.md).    
  
 
 ### How to test the extension ?
