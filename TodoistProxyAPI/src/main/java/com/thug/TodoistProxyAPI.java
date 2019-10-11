@@ -6,6 +6,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.ConflictException;
+import com.google.api.server.spi.response.InternalServerErrorException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -36,11 +37,11 @@ public class TodoistProxyAPI {
 
     private String clientSecret;
 
-    public TodoistProxyAPI() {
+    public TodoistProxyAPI() throws InternalServerErrorException {
         loadConfiguration();
     }
 
-    private void loadConfiguration() {
+    private void loadConfiguration() throws InternalServerErrorException {
 
         if (clientId == null || clientSecret == null) {
 
@@ -57,6 +58,8 @@ public class TodoistProxyAPI {
 
                 LOGGER.severe("configuration loading error.");
                 ex.printStackTrace();
+
+                throw new InternalServerErrorException("configuration loading error. service must be restarted.");
             }
 
         } else {
@@ -66,7 +69,7 @@ public class TodoistProxyAPI {
     }
 
     @ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.POST)
-    public GetAccessTokenResponse accessToken(GetAccessTokenRequest request) throws BadRequestException {
+    public GetAccessTokenResponse accessToken(GetAccessTokenRequest request) throws BadRequestException, InternalServerErrorException {
 
         loadConfiguration();
 
@@ -97,7 +100,7 @@ public class TodoistProxyAPI {
     }
 
     @ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.DELETE)
-    public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request) throws BadRequestException, ConflictException, GoneException {
+    public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request) throws BadRequestException, ConflictException, GoneException, InternalServerErrorException {
 
         loadConfiguration();
 
