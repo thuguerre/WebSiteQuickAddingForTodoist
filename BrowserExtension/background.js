@@ -219,12 +219,16 @@ function gotAccessTokenToRevokeFromStorage(result) {
     
       if (this.readyState == 4 ) {
       
-        if(this.status == 200 && this.responseText.includes("access token revoked")) {
+        if (this.status == 200) {
   
           console.log("access token revoked from Todoist.");
                     
+        } else if (this.status == 410) {
+
+          console.warn("access token has expired or is wrong. impossible to revoke it from Todoist.");
+          
         } else {
-        
+                
           console.warn("unable to revoke the access token from Todoist. status=" + this.status);
           console.warn("error from API : " + this.responseText);
         }
