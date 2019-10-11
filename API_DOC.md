@@ -4,9 +4,9 @@
 
 ### request body
 
-> {
->    "code":"7ca3a9e53560add021b9e0ccad4670ae1100d00c",
->    "state":"056537fd-3c22-4f93-881c-c3260e30109b"
+> {  
+>    "code":"7ca3a9e53560add021b9e0ccad4670ae1100d00c",  
+>    "state":"056537fd-3c22-4f93-881c-c3260e30109b"  
 > }
 
 ### response codes
@@ -21,17 +21,17 @@
 
 In case of success, service returns:  
 
-> {
->     "accessToken": "163c31b6249b092ab4a4c17d3477326acc842b8f"
-> }
+> {  
+>     "accessToken": "163c31b6249b092ab4a4c17d3477326acc842b8f"  
+> }  
 
 ## access-token DELETE
 
 ### request body
 
-> {
->     "accessToken": "163c31b6249b092ab4a4c17d3477326acc842b8f"
-> }
+> {  
+>     "accessToken": "163c31b6249b092ab4a4c17d3477326acc842b8f"  
+> }  
 
 ### response codes
 
@@ -45,6 +45,6 @@ In case of success, service returns:
 
 In case of success, service returns:  
 
-> {
->     "accessToken": "access token revoked"
-> }
+> {  
+>     "accessToken": "access token revoked"  
+> }  
