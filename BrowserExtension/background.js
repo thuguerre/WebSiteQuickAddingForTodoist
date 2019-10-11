@@ -74,28 +74,36 @@ function retrieveTodoistToken(redirectURL) {
 
   console.log("OAUTH State got from Todoist : " + state);
   console.log("OAUTH Code got from Todoist : " + code);
-  
+
   var xhttpContent = "{\"state\":\"" + state + "\", \"code\":\"" + code + "\"}";
   
   // call our Todoist Proxy API to exchange our state against a valid access token
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
   
-    if (this.readyState == 4 && this.status == 200) {
+    if (this.readyState == 4) {
+    
+      if (this.status == 200) {
 
-      todoist_access_token = this.responseText.match(/\"accessToken\": \"([0-9a-fA-F]{40})\"/)[1];
-      console.log("access token : " + todoist_access_token);
+        todoist_access_token = this.responseText.match(/\"accessToken\": \"([0-9a-fA-F]{40})\"/)[1];
+        console.log("access token : " + todoist_access_token);
+        
+        // store the access token in browser storage to use it directly in a future call 
+        setTodoistAccessTokenInBrowserStorage(todoist_access_token);   
+  
+        // now we have authenticated the user, we can launch the addtask Flow
+        launchAddTaskFlow();
+        
+      } else if (this.status == 401) {
       
-      // store the access token in browser storage to use it directly in a future call 
-      setTodoistAccessTokenInBrowserStorage(todoist_access_token);   
-
-      // now we have authenticated the user, we can launch the addtask Flow
-      launchAddTaskFlow();
-            
-    } else if (this.readyState == 4) {
-      
-      console.error("token not retrieved from Proxy API ; status=" + this.status);
-      console.error("error from API : " + this.responseText);
+        console.error("code is not valid, and cannot be exchanged for an access token.");
+        console.error("authentication process has failed.");
+              
+      } else {
+        
+        console.error("token not retrieved from Proxy API ; status=" + this.status);
+        console.error("error from API : " + this.responseText);
+      }
     }
   };
   xhttp.open("POST", TODOIST_PROXY_API_ACCESS_TOKEN, true);
@@ -122,8 +130,7 @@ function launchAddTaskFlow() {
 
 function onTabGot(tabInfo) {
 
-  console.log("active tab obtained.");
-  console.log("getting active tab URL to add it as task in Todoist Inbox");
+  console.log("getting active tab URL to add it as task in Todoist Inbox.");
 
   // create the JSON data request, from current tab's URL      
   var currentTabUrl = tabInfo[0].url;

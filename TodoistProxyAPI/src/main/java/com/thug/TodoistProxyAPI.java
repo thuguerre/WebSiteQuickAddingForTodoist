@@ -7,6 +7,7 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.BadRequestException;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.InternalServerErrorException;
+import com.google.api.server.spi.response.UnauthorizedException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -69,7 +70,7 @@ public class TodoistProxyAPI {
     }
 
     @ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.POST)
-    public GetAccessTokenResponse accessToken(GetAccessTokenRequest request) throws BadRequestException, InternalServerErrorException {
+    public GetAccessTokenResponse accessToken(GetAccessTokenRequest request) throws BadRequestException, InternalServerErrorException, ConflictException, UnauthorizedException {
 
         loadConfiguration();
 
@@ -91,12 +92,26 @@ public class TodoistProxyAPI {
         TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(clientId, this.clientSecret, request.getCode());
 
         ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
-        TodoistGetAccessTokenResponse output = response.getEntity(TodoistGetAccessTokenResponse.class);
 
-        // returning a success message
-        GetAccessTokenResponse msg = new GetAccessTokenResponse();
-        msg.setAccessToken(output.getAccessToken());
-        return msg;
+        LOGGER.info("status=" + response.getStatus());
+
+        if (response.getStatus() == 200) {
+
+            TodoistGetAccessTokenResponse output = response.getEntity(TodoistGetAccessTokenResponse.class);
+
+            GetAccessTokenResponse msg = new GetAccessTokenResponse();
+            msg.setAccessToken(output.getAccessToken());
+            return msg;
+
+        } else if (response.getStatus() == 400) {
+
+            throw new UnauthorizedException(("code is not valid"));
+
+        } else {
+
+            // we do not know what happened
+            throw new ConflictException("an error occurred. status=" + response.getStatus() + ", msg=" + response.getEntity(String.class));
+        }
     }
 
     @ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.DELETE)
@@ -134,7 +149,7 @@ public class TodoistProxyAPI {
         } else {
 
             // we do not know what happened
-            throw new ConflictException("an error occurred : " + response.getEntity(String.class));
+            throw new ConflictException("an error occurred. status=" + response.getStatus() + ", msg=" + response.getEntity(String.class));
         }
     }
 }
