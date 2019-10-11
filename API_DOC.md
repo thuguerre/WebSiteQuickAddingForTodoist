@@ -1,5 +1,11 @@
 # Java API Documentation
 
+This is the documentation of Java API and its different services. For the moment, all the services are callable using the same URL:
+`${host}/api/todoistProxyAPI/v1/access-token/`  
+
+The only difference is the called method : `POST` or `DELETE`.  
+
+
 ## access-token POST
 
 ### request body
