@@ -25,7 +25,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 @Api(name = "todoistProxyAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "${endpoints.project.id}.appspot.com", ownerName = "${endpoints.project.id}.appspot.com", packagePath = ""), issuers = {
-        @ApiIssuer(name = "firebase", issuer = "https://securetoken.google.com/${endpoints.project.id}", jwksUri = "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com")})
+        @ApiIssuer(name = "firebase", issuer = "https://securetoken.google.com/${endpoints.project.id}", jwksUri = "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com") })
 public class TodoistProxyAPI {
 
     private static final String TODOIST_GET_ACCESS_TOKEN_API = "https://todoist.com/oauth/access_token";
@@ -70,7 +70,8 @@ public class TodoistProxyAPI {
     }
 
     @ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.POST)
-    public GetAccessTokenResponse accessToken(GetAccessTokenRequest request) throws BadRequestException, InternalServerErrorException, ConflictException, UnauthorizedException {
+    public GetAccessTokenResponse accessToken(GetAccessTokenRequest request)
+            throws BadRequestException, InternalServerErrorException, ConflictException, UnauthorizedException {
 
         loadConfiguration();
 
@@ -115,7 +116,8 @@ public class TodoistProxyAPI {
     }
 
     @ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.DELETE)
-    public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request) throws BadRequestException, ConflictException, GoneException, InternalServerErrorException {
+    public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request)
+            throws BadRequestException, ConflictException, GoneException, InternalServerErrorException {
 
         loadConfiguration();
 
