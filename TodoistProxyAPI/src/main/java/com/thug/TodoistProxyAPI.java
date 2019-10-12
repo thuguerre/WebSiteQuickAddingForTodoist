@@ -77,6 +77,10 @@ public class TodoistProxyAPI {
 
         /**** Parameters verification ****/
 
+        if (request == null) {
+            throw new BadRequestException("bad request body. please refer to documentation.");
+        }
+
         if (request.getCode() == null) {
             throw new BadRequestException("code cannot be null");
         }
@@ -89,8 +93,8 @@ public class TodoistProxyAPI {
 
         Client client = Client.create();
         WebResource webResource = client.resource(TODOIST_GET_ACCESS_TOKEN_API);
-
-        TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(clientId, this.clientSecret, request.getCode());
+		
+        TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(clientId, clientSecret, request.getCode());
 
         ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
 
@@ -106,6 +110,7 @@ public class TodoistProxyAPI {
 
         } else if (response.getStatus() == 400) {
 
+            LOGGER.warning("msg=" + response.getEntity(String.class));
             throw new UnauthorizedException(("code is not valid"));
 
         } else {
@@ -123,6 +128,10 @@ public class TodoistProxyAPI {
 
         /**** Parameters verification ****/
 
+        if (request == null) {
+            throw new BadRequestException("bad request body. please refer to documentation.");
+        }
+
         if (request.getAccessToken() == null) {
             throw new BadRequestException("token cannot be null");
         }
@@ -132,7 +141,7 @@ public class TodoistProxyAPI {
         Client client = Client.create();
         WebResource webResource = client.resource(TODOIST_REVOKE_ACCESS_TOKEN_API);
 
-        TodoistRevokeAccessTokenRequest todoistRequest = new TodoistRevokeAccessTokenRequest(clientId, this.clientSecret, request.getAccessToken());
+        TodoistRevokeAccessTokenRequest todoistRequest = new TodoistRevokeAccessTokenRequest(clientId, clientSecret, request.getAccessToken());
 
         ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
 
