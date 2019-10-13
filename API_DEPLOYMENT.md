@@ -1,12 +1,10 @@
 # Build, package and deploy the project
 
-## Java API
-
-These are the command lines to execute to build and deploy API on Google Cloud Platform AppEngine. They come from [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend).
+These are the command lines to execute to build and deploy our Java API on Google Cloud Platform AppEngine. They come from [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend).
 
 > Be careful, by default, the real GCP Application ID (for TEST environment) is set in the configuration files (Java and Javascript).
 
-### On Google Cloud Platform TEST Environment
+## On Google Cloud Platform TEST Environment
 
 First be sure your Cloud SDK aims to the TEST Environment:  
 > gcloud config get-value project
@@ -25,7 +23,7 @@ If you have only modified the Java code itself, without modifying the API contra
 > mvn appengine:deploy
 
 
-### On Google Cloud Platform PROD Environment
+## On Google Cloud Platform PROD Environment
 
 > **BE CAREFUL: you are going to deploy on PROD**  
 
@@ -49,7 +47,7 @@ If you have only modified the Java code itself, without modifying the API contra
 
 Always test the deployment to be sure all is right.
 
-### On your own Google Cloud Platform Environment
+## On your own Google Cloud Platform Environment
 
 If your are not allowed to deploy on TEST or PROD environemen, and you have to test modifications on Java API, you can also:
 1. Create your own GCP Environment
@@ -58,7 +56,7 @@ If your are not allowed to deploy on TEST or PROD environemen, and you have to t
   - `BrowserExtension\background.js` (modifying value of constant `TODOIST_PROXY_API_ACCESS_TOKEN`)
 3. Execute previous TEST deployment commands  
 
-### On your local machine
+## On your local machine
 
 ***Local deployment is not working for the moment. I was not able to deploy Google Endpoints services locally.***
 
@@ -69,7 +67,7 @@ Then, you can build and deploy Java App:
 > mvn clean package  
 > ${google-cloud-sdk}\bin\java_dev_appserver.cmd ./TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT
 
-### Resources
+## Resources
 
 - [Cloud SDK / gcloud app deploy](https://cloud.google.com/sdk/gcloud/reference/app/deploy)  
 - [Cloud SDK / Use Local Development Server](https://cloud.google.com/appengine/docs/standard/java/tools/using-local-server?hl=fr)  
