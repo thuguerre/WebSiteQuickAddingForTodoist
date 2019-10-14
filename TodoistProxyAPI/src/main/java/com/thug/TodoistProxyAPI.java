@@ -32,7 +32,7 @@ public class TodoistProxyAPI {
 
 	protected static final String TODOIST_CLIENT_ID_ENV_VAR_ID = "TODOIST_CLIENT_ID";
 
-	private static final String TODOIST_CLIENT_SECRET_ENV_VAR_ID = "TODOIST_CLIENT_SECRET";
+	protected static final String TODOIST_CLIENT_SECRET_ENV_VAR_ID = "TODOIST_CLIENT_SECRET";
 
 	private static final Logger LOGGER = Logger.getLogger(TodoistProxyAPI.class.getName());
 
