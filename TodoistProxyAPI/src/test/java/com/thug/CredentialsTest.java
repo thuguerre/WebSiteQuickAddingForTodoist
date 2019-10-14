@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
@@ -48,6 +49,10 @@ public class CredentialsTest {
 
         String clientId = prop.getProperty(TodoistProxyAPI.TODOIST_CLIENT_ID_PROPERTY_ID);
         String clientSecret = prop.getProperty(TodoistProxyAPI.TODOIST_CLIENT_SECRET_PROPERTY_ID);
+
+        Map<String, String> env = System.getenv();
+        clientId = env.get("TODOIST_CLIENT_ID");
+        clientSecret = env.get("TODOIST_CLIENT_SECRET");
 
         Pattern credentialsPattern = Pattern.compile("^[0-9a-f]{32}$");
 
