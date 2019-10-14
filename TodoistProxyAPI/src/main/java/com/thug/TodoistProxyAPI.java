@@ -19,9 +19,7 @@ import com.thug.todoist.TodoistGetAccessTokenRequest;
 import com.thug.todoist.TodoistGetAccessTokenResponse;
 import com.thug.todoist.TodoistRevokeAccessTokenRequest;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Api(name = "todoistProxyAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "${endpoints.project.id}.appspot.com", ownerName = "${endpoints.project.id}.appspot.com", packagePath = ""), issuers = {
@@ -32,15 +30,23 @@ public class TodoistProxyAPI {
 
 	private static final String TODOIST_REVOKE_ACCESS_TOKEN_API = "https://api.todoist.com/sync/v8/access_tokens/revoke";
 
+	protected static final String TODOIST_CLIENT_ID_ENV_VAR_ID = "TODOIST_CLIENT_ID";
+
+	private static final String TODOIST_CLIENT_SECRET_ENV_VAR_ID = "TODOIST_CLIENT_SECRET";
+
 	private static final Logger LOGGER = Logger.getLogger(TodoistProxyAPI.class.getName());
-
-	public static final String TODOIST_CLIENT_ID_PROPERTY_ID = "TODOIST_CLIENT_ID";
-
-	public static final String TODOIST_CLIENT_SECRET_PROPERTY_ID = "TODOIST_CLIENT_SECRET";
 
 	private String clientId;
 
 	private String clientSecret;
+
+	protected String getClientId() {
+		return clientId;
+	}
+
+	protected String getClientSecret() {
+		return clientSecret;
+	}
 
 	public TodoistProxyAPI() throws InternalServerErrorException {
 		loadConfiguration();
@@ -48,28 +54,18 @@ public class TodoistProxyAPI {
 
 	private void loadConfiguration() throws InternalServerErrorException {
 
-		if (clientId == null || clientSecret == null) {
+		Map<String, String> env = System.getenv();
+		clientId = env.get(TODOIST_CLIENT_ID_ENV_VAR_ID);
+		clientSecret = env.get(TODOIST_CLIENT_SECRET_ENV_VAR_ID);
 
-			try (InputStream input = getClass().getResourceAsStream("/credentials.properties")) {
+		if (clientId == null || clientId.length() == 0) {
+			LOGGER.severe("Environment Variable TODOIST_CLIENT_ID is not set.");
+			throw new InternalServerErrorException("Environment Variable TODOIST_CLIENT_ID is not set.");
+		}
 
-				Properties prop = new Properties();
-				prop.load(input);
-				clientId = prop.getProperty(TODOIST_CLIENT_ID_PROPERTY_ID);
-				clientSecret = prop.getProperty(TODOIST_CLIENT_SECRET_PROPERTY_ID);
-
-				LOGGER.info("configuration loaded.");
-
-			} catch (IOException ex) {
-
-				LOGGER.severe("configuration loading error.");
-				ex.printStackTrace();
-
-				throw new InternalServerErrorException("configuration loading error. service must be restarted.");
-			}
-
-		} else {
-
-			LOGGER.info("configuration already loaded. Do nothing.");
+		if (clientSecret == null || clientSecret.length() == 0) {
+			LOGGER.severe("Environment Variable TODOIST_CLIENT_SECRET is not set.");
+			throw new InternalServerErrorException("Environment Variable TODOIST_CLIENT_SECRET is not set.");
 		}
 	}
 

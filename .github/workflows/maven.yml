@@ -16,5 +16,5 @@ jobs:
     - name: Build with Maven
       run: mvn package --file TodoistProxyAPI/pom.xml
       env:
-        TODOIST_CLIENT_ID: ${{ secrets.TODOIST_CLIENT_ID }}
-        TODOIST_CLIENT_SECRET: ${{ secrets.TODOIST_CLIENT_SECRET }}
+        TODOIST_CLIENT_ID: ${{ secrets.TODOIST_CLIENT_ID_PROD }}
+        TODOIST_CLIENT_SECRET: ${{ secrets.TODOIST_CLIENT_SECRET_PROD }}

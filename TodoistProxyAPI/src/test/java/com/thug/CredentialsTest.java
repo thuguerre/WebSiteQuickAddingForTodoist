@@ -1,75 +1,41 @@
 package com.thug;
 
+import com.google.api.server.spi.response.InternalServerErrorException;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class CredentialsTest {
 
-    private static final Logger LOGGER = Logger.getLogger(CredentialsTest.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CredentialsTest.class.getName());
 
-    @Test
-    public void isCredentialsPropertiesFilePresent() throws IOException {
+	@Test
+	public void areCredentialsLoaded() throws InternalServerErrorException {
 
-        Assert.assertNotNull("Credentials.properties file does not exist.", getClass().getResourceAsStream("/credentials.properties"));
-    }
+		TodoistProxyAPI api = new TodoistProxyAPI();
 
-    @Test
-    public void areCredentialsPropertiesPresent() throws IOException {
+		String clientId = api.getClientId();
+		String clientSecret = api.getClientSecret();
 
-        InputStream input = getClass().getResourceAsStream("/credentials.properties");
+		Pattern credentialsPattern = Pattern.compile("^[0-9a-f]{32}$");
 
-        Properties prop = new Properties();
-        prop.load(input);
+		Assert.assertFalse("Todoist Client ID property is not found", clientId == null);
+		Assert.assertFalse("Todoist Client ID property is not set", clientId.length() == 0);
+		Assert.assertTrue("Todoist Client ID does not match pattern", credentialsPattern.matcher(clientId).matches());
 
-        String clientId = prop.getProperty(TodoistProxyAPI.TODOIST_CLIENT_ID_PROPERTY_ID);
-        String clientSecret = prop.getProperty(TodoistProxyAPI.TODOIST_CLIENT_SECRET_PROPERTY_ID);
+		Assert.assertFalse("Todoist Client Secret property is not found", clientSecret == null);
+		Assert.assertFalse("Todoist Client Secret property is not set", clientSecret.length() == 0);
+		Assert.assertTrue("Todoist Client Secret does not match pattern", credentialsPattern.matcher(clientSecret).matches());
+	}
 
-        Pattern credentialsPattern = Pattern.compile("^[0-9a-f]{32}$");
+	@Ignore("not able to modiy env var for the moment")
+	@Test(expected = InternalServerErrorException.class)
+	public void isTodoistClientIdAbsenceWellManaged() throws InternalServerErrorException {
 
-        Assert.assertFalse("Todoist Client ID property is not found", clientId == null);
-        Assert.assertFalse("Todoist Client ID property is not found", clientId.length() == 0);
-        Assert.assertTrue("Client ID does not match pattern", credentialsPattern.matcher(clientId).matches());
-
-        Assert.assertFalse("Todoist Client Secret property is not found", clientSecret == null);
-        Assert.assertFalse("Todoist Client Secret property is not found", clientSecret.length() == 0);
-        Assert.assertTrue("Client Secret does not match pattern", credentialsPattern.matcher(clientSecret).matches());
-    }
-
-    @Test
-    public void areCredentialsTestPropertiesPresent() throws IOException {
-
-        InputStream input = getClass().getResourceAsStream("/credentials_test.properties");
-
-        Properties prop = new Properties();
-        prop.load(input);
-
-        String clientId = prop.getProperty(TodoistProxyAPI.TODOIST_CLIENT_ID_PROPERTY_ID);
-        String clientSecret = prop.getProperty(TodoistProxyAPI.TODOIST_CLIENT_SECRET_PROPERTY_ID);
-
-        Map<String, String> env = System.getenv();
-        clientId = env.get("TODOIST_CLIENT_ID");
-        clientSecret = env.get("TODOIST_CLIENT_SECRET");
-
-        for (String key : env.keySet()) {
-            LOGGER.info("key=" + key);
-        }
-
-
-        Pattern credentialsPattern = Pattern.compile("^[0-9a-f]{32}$");
-
-        Assert.assertFalse("Todoist Client ID property is not found", clientId == null);
-        Assert.assertFalse("Todoist Client ID property is not found", clientId.length() == 0);
-        Assert.assertTrue("Client ID does not match pattern", credentialsPattern.matcher(clientId).matches());
-
-        Assert.assertFalse("Todoist Client Secret property is not found", clientSecret == null);
-        Assert.assertFalse("Todoist Client Secret property is not found", clientSecret.length() == 0);
-        Assert.assertTrue("Client Secret does not match pattern", credentialsPattern.matcher(clientSecret).matches());
-    }
+		System.getenv().put(TodoistProxyAPI.TODOIST_CLIENT_ID_ENV_VAR_ID, "");
+		new TodoistProxyAPI();
+	}
 }
