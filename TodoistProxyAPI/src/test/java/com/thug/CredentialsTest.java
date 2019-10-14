@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class CredentialsTest {
+
+    private static final Logger LOGGER = Logger.getLogger(CredentialsTest.class.getName());
 
     @Test
     public void isCredentialsPropertiesFilePresent() throws IOException {
@@ -53,6 +56,11 @@ public class CredentialsTest {
         Map<String, String> env = System.getenv();
         clientId = env.get("TODOIST_CLIENT_ID");
         clientSecret = env.get("TODOIST_CLIENT_SECRET");
+
+        for (String key : env.keySet()) {
+            LOGGER.info("key=" + key);
+        }
+
 
         Pattern credentialsPattern = Pattern.compile("^[0-9a-f]{32}$");
 
