@@ -18,3 +18,10 @@ jobs:
       env:
         TODOIST_CLIENT_ID: ${{ secrets.TODOIST_CLIENT_ID_PROD }}
         TODOIST_CLIENT_SECRET: ${{ secrets.TODOIST_CLIENT_SECRET_PROD }}
+
+    - name: Deploy to GCP
+      uses: actions/gcloud/auth@master
+      run: mvn appengine:deploy
+      env:
+        TODOIST_CLIENT_ID: ${{ secrets.TODOIST_CLIENT_ID_PROD }}
+        TODOIST_CLIENT_SECRET: ${{ secrets.TODOIST_CLIENT_SECRET_PROD }}
