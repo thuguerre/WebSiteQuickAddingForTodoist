@@ -22,6 +22,9 @@
 
         <endpoints.framework.version>2.2.1</endpoints.framework.version>
         <endpoints.management.version>1.0.4</endpoints.management.version>
+
+        <todoist_client_id>${env.TODOIST_CLIENT_ID}</todoist_client_id>
+        <todoist_client_secret>${env.TODOIST_CLIENT_SECRET}</todoist_client_secret>
     </properties>
 
     <profiles>

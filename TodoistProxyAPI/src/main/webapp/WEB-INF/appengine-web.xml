@@ -25,7 +25,9 @@
 
     <!-- [START env_variables] -->
     <env-variables>
-        <env-var name="ENDPOINTS_SERVICE_NAME" value="${endpoints.project.id}.appspot.com" />
+        <env-var name="ENDPOINTS_SERVICE_NAME" value="${endpoints.project.id}.appspot.com"/>
+        <env-var name="TODOIST_CLIENT_ID" value="${todoist_client_id}"/>
+        <env-var name="TODOIST_CLIENT_SECRET" value="${todoist_client_secret}"/>
     </env-variables>
     <!-- [END env_variables] -->
 </appengine-web-app>
