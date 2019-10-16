@@ -26,11 +26,6 @@ jobs:
       uses: actions/gcloud/auth@master
       env:
         GCLOUD_AUTH:  ${{ secrets.GCLOUD_AUTH_ENV_TEST }}
-
-    - name: Install GCP Component app-engine-java
-      uses: "actions/gcloud/cli@master"
-      with:
-        args: components install app-engine-java
               
     - name: Deploy application to GCP - TEST env
       uses: "actions/gcloud/cli@master"
