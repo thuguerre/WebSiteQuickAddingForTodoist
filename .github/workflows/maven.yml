@@ -25,7 +25,5 @@ jobs:
         GCLOUD_AUTH:  ${{ secrets.GCLOUD_AUTH }}
       
     - name: Deploy to GCP
-      run: mvn appengine:deploy
-      env:
-        TODOIST_CLIENT_ID: ${{ secrets.TODOIST_CLIENT_ID_PROD }}
-        TODOIST_CLIENT_SECRET: ${{ secrets.TODOIST_CLIENT_SECRET_PROD }}
+      uses = "actions/gcloud/cli@master"
+      args = "app deploy ~/TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml"
