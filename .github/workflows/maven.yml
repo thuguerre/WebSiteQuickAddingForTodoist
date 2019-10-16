@@ -24,7 +24,7 @@ jobs:
     
     - name: GCP / Install gcloud SDK
       run: |
-        sudo apt-get update && sudo apt-get install google-cloud-sdk
+        sudo apt-get update && sudo apt-get install google-cloud-sdk && sudo apt-get install google-cloud-sdk-app-engine-java
         
     - name: GCP / Activate Service Account 
       env: 
