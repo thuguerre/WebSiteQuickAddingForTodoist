@@ -35,6 +35,6 @@ jobs:
     - name: Deploy application to GCP - TEST env
       uses: "actions/gcloud/cli@master"
       with:
-        args: app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml
+        args: app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
       env:
         CLOUDSDK_CORE_PROJECT: websitequickadding4todoisttest
