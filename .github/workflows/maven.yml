@@ -26,4 +26,5 @@ jobs:
       
     - name: Deploy to GCP
       uses: "actions/gcloud/cli@master"
-      args: "app deploy ~/TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml"
+      with:
+        args: app deploy ~/TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml
