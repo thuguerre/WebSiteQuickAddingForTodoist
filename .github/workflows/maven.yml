@@ -28,7 +28,7 @@ jobs:
         GCLOUD_AUTH:  ${{ secrets.GCLOUD_AUTH_ENV_TEST }}
 
     - name: echo java version
-      run: java --version
+      run: java -version
                     
     - name: Deploy application to GCP - TEST env
       uses: "actions/gcloud/cli@master"
