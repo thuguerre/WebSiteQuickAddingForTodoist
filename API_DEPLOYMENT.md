@@ -1,10 +1,11 @@
 # Build, package and deploy the project
 
-By default, a commit on the GitHub repository (today all branches, tomorrow only on `master`) will activate an auto-deployment of the Java API to Google Cloud Platform AppEngine, using GitHub Actions.  
+By default, a commit on the GitHub repository (today all branches, tomorrow only on `master`) will activate an auto-deployment of the Java API to Google Cloud Platform AppEngine, using GitHub Actions, on an TEST Environment.  
+
 The deployment workflow is described in `.github/workflows/auto-deploy-api.yml`.
 
-For documentation, the following [GitHub Secrets](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/settings/secrets) have to be created first:  
-- `GCLOUD_AUTH_ENV_TEST`, whose value as to be got [from here](https://console.cloud.google.com/iam-admin/serviceaccounts) and Base64-encoded (with [this site](https://www.base64encode.org/) for instance)  
+For documentation in case of required GitHub re-configuration, the following [GitHub Secrets](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/settings/secrets) have to be created first:  
+- `GCLOUD_AUTH_ENV_TEST`, whose value as to be got [from here](https://console.cloud.google.com/iam-admin/serviceaccounts) and then base64-encoded (with [this site](https://www.base64encode.org/) for instance)  
 - `TODOIST_CLIENT_ID_PROD` (for a PROD deployment, see [Project Set Up](PROJECT_LOCAL_SETUP.md) to get it)    
 - `TODOIST_CLIENT_SECRET_PROD` (for a PROD deployment, see [Project Set Up](PROJECT_LOCAL_SETUP.md) to get it)
 
