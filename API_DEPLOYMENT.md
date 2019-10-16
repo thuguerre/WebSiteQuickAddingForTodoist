@@ -1,6 +1,18 @@
 # Build, package and deploy the project
 
-These are the command lines to execute to build and deploy our Java API on Google Cloud Platform AppEngine. They come from [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend).
+By default, a commit on the GitHub repository (today all branches, tomorrow only on `master`) will activate an auto-deployment of the Java API to Google Cloud Platform AppEngine, using GitHub Actions.  
+The deployment workflow is described in `.github/workflows/auto-deploy-api.yml`.
+
+For documentation, the following [GitHub Secrets](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/settings/secrets) have to be created first:  
+- `GCLOUD_AUTH_ENV_TEST`, whose value as to be got [from here](https://console.cloud.google.com/iam-admin/serviceaccounts) and Base64-encoded (with [this site](https://www.base64encode.org/) for instance)  
+- `TODOIST_CLIENT_ID_PROD` (for a PROD deployment, see [Project Set Up](PROJECT_LOCAL_SETUP.md) to get it)    
+- `TODOIST_CLIENT_SECRET_PROD` (for a PROD deployment, see [Project Set Up](PROJECT_LOCAL_SETUP.md) to get it)
+
+# Build, package and deploy the project by yourself
+
+> Be sure you have completed the [Project Set Up](PROJECT_LOCAL_SETUP.md) on your computer before continuing this procedure.  
+
+If you need to build and deploy the project by yourself locally or on Google Cloud Platform AppEngine, you can use the following commands. They come from [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend).  
 
 > Be careful, by default, the real GCP Application ID (for TEST environment) is set in the configuration files (Java and Javascript).
 
@@ -49,7 +61,7 @@ Always test the deployment to be sure all is right.
 
 ## On your own Google Cloud Platform Environment
 
-If your are not allowed to deploy on TEST or PROD environemen, and you have to test modifications on Java API, you can also:
+If your are not allowed to deploy on TEST or PROD environments, and you have to test modifications on Java API, you can also:
 1. Create your own GCP Environment
 2. Set your project ID in:
   - `TodoistProxyAPI\pom.xml` (replacing property `endpoints.project.id`'s value in TEST profile for instance. You can also create your own profile if you want)

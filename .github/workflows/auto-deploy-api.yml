@@ -1,4 +1,4 @@
-name: Java CI
+name: Auto Deploy API
 
 on: [push]
 
