@@ -5,7 +5,8 @@ By default, a commit on the GitHub repository (today all branches, tomorrow only
 The deployment workflow is described in `.github/workflows/auto-deploy-api.yml`.
 
 For documentation in case of required GitHub re-configuration, the following [GitHub Secrets](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/settings/secrets) have to be created first:  
-- `GCLOUD_AUTH_ENV_TEST`, whose value as to be got [from here](https://console.cloud.google.com/iam-admin/serviceaccounts) and then base64-encoded (with [this site](https://www.base64encode.org/) for instance)  
+- `GCLOUD_AUTH_ENV_TEST`, whose value as to be got [from here](https://console.cloud.google.com/iam-admin/serviceaccounts) and then base64-encoded (with [this site](https://www.base64encode.org/) for instance)
+- `GCLOUD_AUTH_ENV_PROD`, whose is the same the previous but for PROD environment     
 - `TODOIST_CLIENT_ID_PROD` (for a PROD deployment, see [Project Set Up](PROJECT_LOCAL_SETUP.md) to get it)    
 - `TODOIST_CLIENT_SECRET_PROD` (for a PROD deployment, see [Project Set Up](PROJECT_LOCAL_SETUP.md) to get it)
 
