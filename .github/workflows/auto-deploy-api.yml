@@ -79,6 +79,6 @@ jobs:
         gcloud config set project "$CLOUDSDK_CORE_PROJECT"
                      
     - name: GCP / Deploy App on PROD env
-      if: github.ref == 'refs/heads/auto-tests' 
+      if: github.ref == 'refs/heads/auto-tests'  
       run: |
         gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
