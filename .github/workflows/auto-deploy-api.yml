@@ -1,4 +1,4 @@
-name: Auto Deploy API
+name: Auto Deploy API - test
 
 on:
   push:
