@@ -19,148 +19,148 @@ import com.thug.todoist.TodoistGetAccessTokenRequest;
 import com.thug.todoist.TodoistGetAccessTokenResponse;
 import com.thug.todoist.TodoistRevokeAccessTokenRequest;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Api(name = "todoistProxyAPI", version = "v1", namespace = @ApiNamespace(ownerDomain = "${endpoints.project.id}.appspot.com", ownerName = "${endpoints.project.id}.appspot.com", packagePath = ""), issuers = {
-        @ApiIssuer(name = "firebase", issuer = "https://securetoken.google.com/${endpoints.project.id}", jwksUri = "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com") })
+		@ApiIssuer(name = "firebase", issuer = "https://securetoken.google.com/${endpoints.project.id}", jwksUri = "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com") })
 public class TodoistProxyAPI {
 
-    private static final String TODOIST_GET_ACCESS_TOKEN_API = "https://todoist.com/oauth/access_token";
+	private static final String TODOIST_GET_ACCESS_TOKEN_API = "https://todoist.com/oauth/access_token";
 
-    private static final String TODOIST_REVOKE_ACCESS_TOKEN_API = "https://api.todoist.com/sync/v8/access_tokens/revoke";
+	private static final String TODOIST_REVOKE_ACCESS_TOKEN_API = "https://api.todoist.com/sync/v8/access_tokens/revoke";
 
-    private static final Logger LOGGER = Logger.getLogger(TodoistProxyAPI.class.getName());
+	protected static final String TODOIST_CLIENT_ID_ENV_VAR_ID = "TODOIST_CLIENT_ID";
 
-    private String clientId;
+	protected static final String TODOIST_CLIENT_SECRET_ENV_VAR_ID = "TODOIST_CLIENT_SECRET";
 
-    private String clientSecret;
+	private static final Logger LOGGER = Logger.getLogger(TodoistProxyAPI.class.getName());
 
-    public TodoistProxyAPI() throws InternalServerErrorException {
-        loadConfiguration();
-    }
+	private String clientId;
 
-    private void loadConfiguration() throws InternalServerErrorException {
+	private String clientSecret;
 
-        if (clientId == null || clientSecret == null) {
+	protected String getClientId() {
+		return clientId;
+	}
 
-            try (InputStream input = getClass().getResourceAsStream("/credentials.properties")) {
+	protected String getClientSecret() {
+		return clientSecret;
+	}
 
-                Properties prop = new Properties();
-                prop.load(input);
-                clientId = prop.getProperty("TODOIST_CLIENT_ID");
-                clientSecret = prop.getProperty("TODOIST_CLIENT_SECRET");
+	public TodoistProxyAPI() throws InternalServerErrorException {
+		loadConfiguration();
+	}
 
-                LOGGER.info("configuration loaded.");
+	private void loadConfiguration() throws InternalServerErrorException {
 
-            } catch (IOException ex) {
+		Map<String, String> env = System.getenv();
+		clientId = env.get(TODOIST_CLIENT_ID_ENV_VAR_ID);
+		clientSecret = env.get(TODOIST_CLIENT_SECRET_ENV_VAR_ID);
 
-                LOGGER.severe("configuration loading error.");
-                ex.printStackTrace();
+		if (clientId == null || clientId.length() == 0) {
+			LOGGER.severe("Environment Variable TODOIST_CLIENT_ID is not set.");
+			throw new InternalServerErrorException("Environment Variable TODOIST_CLIENT_ID is not set.");
+		}
 
-                throw new InternalServerErrorException("configuration loading error. service must be restarted.");
-            }
+		if (clientSecret == null || clientSecret.length() == 0) {
+			LOGGER.severe("Environment Variable TODOIST_CLIENT_SECRET is not set.");
+			throw new InternalServerErrorException("Environment Variable TODOIST_CLIENT_SECRET is not set.");
+		}
+	}
 
-        } else {
+	@ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.POST)
+	public GetAccessTokenResponse accessToken(GetAccessTokenRequest request)
+			throws BadRequestException, InternalServerErrorException, ConflictException, UnauthorizedException {
 
-            LOGGER.info("configuration already loaded. Do nothing.");
-        }
-    }
+		loadConfiguration();
 
-    @ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.POST)
-    public GetAccessTokenResponse accessToken(GetAccessTokenRequest request)
-            throws BadRequestException, InternalServerErrorException, ConflictException, UnauthorizedException {
+		/**** Parameters verification ****/
 
-        loadConfiguration();
+		if (request == null) {
+			throw new BadRequestException("bad request body. please refer to documentation.");
+		}
 
-        /**** Parameters verification ****/
+		if (request.getCode() == null) {
+			throw new BadRequestException("code cannot be null");
+		}
 
-        if (request == null) {
-            throw new BadRequestException("bad request body. please refer to documentation.");
-        }
+		if (request.getState() == null) {
+			throw new BadRequestException("state cannot be null");
+		}
 
-        if (request.getCode() == null) {
-            throw new BadRequestException("code cannot be null");
-        }
+		/**** Payload ****/
 
-        if (request.getState() == null) {
-            throw new BadRequestException("state cannot be null");
-        }
+		Client client = Client.create();
+		WebResource webResource = client.resource(TODOIST_GET_ACCESS_TOKEN_API);
 
-        /**** Payload ****/
+		TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(clientId, clientSecret, request.getCode());
 
-        Client client = Client.create();
-        WebResource webResource = client.resource(TODOIST_GET_ACCESS_TOKEN_API);
-		
-        TodoistGetAccessTokenRequest todoistRequest = new TodoistGetAccessTokenRequest(clientId, clientSecret, request.getCode());
+		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
 
-        ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
+		LOGGER.info("status=" + response.getStatus());
 
-        LOGGER.info("status=" + response.getStatus());
+		if (response.getStatus() == 200) {
 
-        if (response.getStatus() == 200) {
+			TodoistGetAccessTokenResponse output = response.getEntity(TodoistGetAccessTokenResponse.class);
 
-            TodoistGetAccessTokenResponse output = response.getEntity(TodoistGetAccessTokenResponse.class);
+			GetAccessTokenResponse msg = new GetAccessTokenResponse();
+			msg.setAccessToken(output.getAccessToken());
+			return msg;
 
-            GetAccessTokenResponse msg = new GetAccessTokenResponse();
-            msg.setAccessToken(output.getAccessToken());
-            return msg;
+		} else if (response.getStatus() == 400) {
 
-        } else if (response.getStatus() == 400) {
+			LOGGER.warning("msg=" + response.getEntity(String.class));
+			throw new UnauthorizedException(("code is not valid"));
 
-            LOGGER.warning("msg=" + response.getEntity(String.class));
-            throw new UnauthorizedException(("code is not valid"));
+		} else {
 
-        } else {
+			// we do not know what happened
+			throw new ConflictException("an error occurred. status=" + response.getStatus() + ", msg=" + response.getEntity(String.class));
+		}
+	}
 
-            // we do not know what happened
-            throw new ConflictException("an error occurred. status=" + response.getStatus() + ", msg=" + response.getEntity(String.class));
-        }
-    }
+	@ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.DELETE)
+	public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request)
+			throws BadRequestException, ConflictException, GoneException, InternalServerErrorException {
 
-    @ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.DELETE)
-    public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request)
-            throws BadRequestException, ConflictException, GoneException, InternalServerErrorException {
+		loadConfiguration();
 
-        loadConfiguration();
+		/**** Parameters verification ****/
 
-        /**** Parameters verification ****/
+		if (request == null) {
+			throw new BadRequestException("bad request body. please refer to documentation.");
+		}
 
-        if (request == null) {
-            throw new BadRequestException("bad request body. please refer to documentation.");
-        }
+		if (request.getAccessToken() == null) {
+			throw new BadRequestException("token cannot be null");
+		}
 
-        if (request.getAccessToken() == null) {
-            throw new BadRequestException("token cannot be null");
-        }
+		/**** Payload ****/
 
-        /**** Payload ****/
+		Client client = Client.create();
+		WebResource webResource = client.resource(TODOIST_REVOKE_ACCESS_TOKEN_API);
 
-        Client client = Client.create();
-        WebResource webResource = client.resource(TODOIST_REVOKE_ACCESS_TOKEN_API);
+		TodoistRevokeAccessTokenRequest todoistRequest = new TodoistRevokeAccessTokenRequest(clientId, clientSecret, request.getAccessToken());
 
-        TodoistRevokeAccessTokenRequest todoistRequest = new TodoistRevokeAccessTokenRequest(clientId, clientSecret, request.getAccessToken());
+		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
 
-        ClientResponse response = webResource.type("application/json").post(ClientResponse.class, todoistRequest);
+		if (response.getStatus() == 204) {
 
-        if (response.getStatus() == 204) {
+			// In Todoist documentation, status 204 is successful.
+			GetAccessTokenResponse msg = new GetAccessTokenResponse();
+			msg.setAccessToken("access token revoked");
+			return msg;
 
-            // In Todoist documentation, status 204 is successful.
-            GetAccessTokenResponse msg = new GetAccessTokenResponse();
-            msg.setAccessToken("access token revoked");
-            return msg;
+		} else if (response.getStatus() == 400) {
 
-        } else if (response.getStatus() == 400) {
+			// Todoist has sent a 400=unauthorized exception. The access token is unknown from Todoist
+			throw new GoneException("access token has expired or is wrong.");
 
-            // Todoist has sent a 400=unauthorized exception. The access token is unknown from Todoist
-            throw new GoneException("access token has expired or is wrong.");
+		} else {
 
-        } else {
-
-            // we do not know what happened
-            throw new ConflictException("an error occurred. status=" + response.getStatus() + ", msg=" + response.getEntity(String.class));
-        }
-    }
+			// we do not know what happened
+			throw new ConflictException("an error occurred. status=" + response.getStatus() + ", msg=" + response.getEntity(String.class));
+		}
+	}
 }

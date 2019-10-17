@@ -10,22 +10,21 @@ You will also need to declare an application in [Todoist Application Console](ht
 
 ## Credentials
 
-> If you do not plan to modify the Java API, you can use the official `TODOIST_CLIENT_ID` already set in `background.js`.  
+> If you do not plan to modify the Java API, you can use the official `TODOIST_CLIENT_ID` already set in `background.js` (and on GCP environments).    
 > However, if you need to modify the Java part of the project, you will have to execute the following process, and generate your own `TODOIST_CLIENT_ID` and `TODOIST_CLIENT_SECRET`.  
 
-For security reasons, Todoist API credentials are not committed to the Git repository.  
-For the moment, a very basic solution is used : credentials are externalized into files which are Git-ignored.  
-A better solution will be found as soon as possible.
-
-You have to create a `credentials.properties` file in `TodoistProxyAPI/src/main/resources` directory. This file must look like:
-> TODOIST_CLIENT_ID=123456  
-> TODOIST_CLIENT_SECRET=123456    
+For security reasons, Todoist API credentials are not committed (and must not) to the Git repository. The API is designed to use Environment Variables, not to be based on war-inner-files containing these values.    
+To make the API working on any environment (your local one or a distant server), you have first to set following both environment variables:
+1. `TODOIST_CLIENT_ID`
+2. `TODOIST_CLIENT_SECRET`     
 
 where:
-- `TODOIST_CLIENT_ID` value is the Client Id got from your [Todoist Application Console](https://developer.todoist.com/appconsole.html). It has the same value as in `background.js` file, in `BrowserExtension` directory.
+- `TODOIST_CLIENT_ID` value is the Client Id got from your [Todoist Application Console](https://developer.todoist.com/appconsole.html). It has to have the same value as in `background.js` file, in `BrowserExtension` directory.
 - `TODOIST_CLIENT_SECRET` value is the Secret Key got from your [Todoist Application Console](https://developer.todoist.com/appconsole.html).
 
-Regarding the extension part, the `TODOIST_CLIENT_ID` (and only it) is set in the header of `background.js`. Of course, `TODOIST_CLIENT_ID` in both Java and Javascript parts have to be equal.       
+Regarding the extension part, the `TODOIST_CLIENT_ID` (and only it) is set in the header of `background.js`. Of course, `TODOIST_CLIENT_ID` in both Java and Javascript parts have to be equal.
+
+Both environment variables are required to launch Unit Tests AND to package the Java API, as they are injected in `appengine-web.xml` to make it working on Google Cloud Platform environment. *Yes, finally, the .war file contains a file with credentials values, but I did not find yet how to set Environment Variables on AppEngine Java 8 in another way.*          
 
 ## How to build and deploy the API ?
 
