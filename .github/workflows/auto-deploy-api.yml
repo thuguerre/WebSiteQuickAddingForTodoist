@@ -16,7 +16,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:
+    steps:    
     - name: Download sources
       uses: actions/checkout@v1
       
@@ -30,24 +30,55 @@ jobs:
       env:
         TODOIST_CLIENT_ID: ${{ secrets.TODOIST_CLIENT_ID_PROD }}
         TODOIST_CLIENT_SECRET: ${{ secrets.TODOIST_CLIENT_SECRET_PROD }}
+
+
     
     - name: GCP / Install gcloud SDK
       run: |
         sudo apt-get update && sudo apt-get install google-cloud-sdk && sudo apt-get install google-cloud-sdk-app-engine-java
         
-    - name: GCP / Activate Service Account 
+    - name: GCP / Connect to TEST env 
       env: 
         GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_ENV_TEST }}
       run: |
         echo "$GCLOUD_AUTH" | base64 --decode > "$HOME"/gcloud.json
         sh -c "gcloud auth activate-service-account --key-file=$HOME/gcloud.json $*"
 
-    - name: GCP / Set Project
+    - name: GCP / Set Project to TEST env
       env:
         CLOUDSDK_CORE_PROJECT: websitequickadding4todoisttest
       run: |
         gcloud config set project "$CLOUDSDK_CORE_PROJECT"
                      
-    - name: GCP / Deploy App 
+    - name: GCP / Deploy App on TEST env 
+      run: |
+        gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
+
+
+        
+    - name: Build with Maven for a PROD env
+      if: github.ref == 'refs/heads/master'
+      run: mvn clean package --file TodoistProxyAPI/pom.xml -P PROD
+      env:
+        TODOIST_CLIENT_ID: ${{ secrets.TODOIST_CLIENT_ID_PROD }}
+        TODOIST_CLIENT_SECRET: ${{ secrets.TODOIST_CLIENT_SECRET_PROD }}
+
+    - name: GCP / Connect to PROD env
+      if: github.ref == 'refs/heads/master' 
+      env: 
+        GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_ENV_PROD }}
+      run: |
+        echo "$GCLOUD_AUTH" | base64 --decode > "$HOME"/gcloud.json
+        sh -c "gcloud auth activate-service-account --key-file=$HOME/gcloud.json $*"
+
+    - name: GCP / Set Project to PROD env
+      if: github.ref == 'refs/heads/master'
+      env:
+        CLOUDSDK_CORE_PROJECT: websitequickadding4todoistprod
+      run: |
+        gcloud config set project "$CLOUDSDK_CORE_PROJECT"
+                     
+    - name: GCP / Deploy App on PROD env
+      if: github.ref == 'refs/heads/master'  
       run: |
         gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
