@@ -17,6 +17,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Echo current branch
+      env: 
+        AAA: ${{ github.ref }}
+      run: |
+        echo "$AAA"
+        
     - name: Download sources
       uses: actions/checkout@v1
       
