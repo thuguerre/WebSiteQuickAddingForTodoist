@@ -1,7 +1,12 @@
 name: Auto Deploy API
 
 on:
-  push:
+  push:  
+    paths:
+    - 'TodoistProxyAPI/**'
+    - '.github/workflows/auto-deploy-api.yml'
+    
+  pull_request:  
     paths:
     - 'TodoistProxyAPI/**'
     - '.github/workflows/auto-deploy-api.yml'
