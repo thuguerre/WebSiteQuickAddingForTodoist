@@ -1,6 +1,8 @@
 ***PROJECT UNDER DEVELOPMENT***    
 ***NOT EVEN IN AN ALPHA VERSION NOW :)***
 
+![](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/workflows/Auto%20Deploy%20API/badge.svg)
+
 
 # Project Description
 
