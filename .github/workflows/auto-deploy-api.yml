@@ -57,14 +57,14 @@ jobs:
 
         
     - name: Build with Maven for a PROD env
-      if: github.ref == refs/head/auto-tests
+      if: github.ref == 'refs/head/auto-tests'
       run: mvn clean package --file TodoistProxyAPI/pom.xml -P PROD
       env:
         TODOIST_CLIENT_ID: ${{ secrets.TODOIST_CLIENT_ID_PROD }}
         TODOIST_CLIENT_SECRET: ${{ secrets.TODOIST_CLIENT_SECRET_PROD }}
 
     - name: GCP / Connect to PROD env
-      if: github.ref == refs/head/master 
+      if: github.ref == 'refs/head/master' 
       env: 
         GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_ENV_PROD }}
       run: |
@@ -72,13 +72,13 @@ jobs:
         sh -c "gcloud auth activate-service-account --key-file=$HOME/gcloud.json $*"
 
     - name: GCP / Set Project to PROD env
-      if: github.ref == refs/head/master
+      if: github.ref == 'refs/head/master'
       env:
         CLOUDSDK_CORE_PROJECT: websitequickadding4todoistprod
       run: |
         gcloud config set project "$CLOUDSDK_CORE_PROJECT"
                      
     - name: GCP / Deploy App on PROD env
-      if: github.ref == refs/head/master 
+      if: github.ref == 'refs/head/master' 
       run: |
         gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
