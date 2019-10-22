@@ -118,7 +118,7 @@ public class TodoistProxyAPI {
     }
 
     @ApiMethod(path = "access-token", httpMethod = ApiMethod.HttpMethod.DELETE)
-    public GetAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request)
+    public RevokeAccessTokenResponse accessTokenRevoke(RevokeAccessTokenRequest request)
             throws BadRequestException, ConflictException, GoneException, InternalServerErrorException {
 
         loadConfiguration();
@@ -145,8 +145,9 @@ public class TodoistProxyAPI {
         if (response.getStatus() == 204) {
 
             // In Todoist documentation, status 204 is successful.
-            GetAccessTokenResponse msg = new GetAccessTokenResponse();
-            msg.setAccessToken("access token revoked");
+            RevokeAccessTokenResponse msg = new RevokeAccessTokenResponse();
+            msg.setResult("OK");
+            msg.setResultMessage("access token revoked");
             return msg;
 
         } else if (response.getStatus() == 400) {
