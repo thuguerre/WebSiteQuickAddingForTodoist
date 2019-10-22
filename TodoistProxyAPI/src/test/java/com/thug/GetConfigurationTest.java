@@ -1,7 +1,7 @@
 package com.thug;
 
 import com.google.api.server.spi.response.InternalServerErrorException;
-import com.thug.model.GetClientIdResponse;
+import com.thug.model.GetConfigurationResponse;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,19 +10,19 @@ import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-public class GetClientIdTest {
+public class GetConfigurationTest {
 
-    private static final Logger LOGGER = Logger.getLogger(GetClientIdTest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GetConfigurationTest.class.getName());
 
     @Rule
     public final EnvironmentVariables envVars = new EnvironmentVariables();
 
     @Test
-    public void getClientId() throws InternalServerErrorException {
+    public void getConfiguration() throws InternalServerErrorException {
 
         TodoistProxyAPI api = new TodoistProxyAPI();
 
-        GetClientIdResponse response = api.todoistClientId();
+        GetConfigurationResponse response = api.getConfiguration();
 
         Pattern credentialsPattern = Pattern.compile("^[0-9a-f]{32}$");
 
@@ -40,7 +40,7 @@ public class GetClientIdTest {
 
         try {
 
-            GetClientIdResponse response = api.todoistClientId();
+            GetConfigurationResponse response = api.getConfiguration();
             Assert.fail("Should have thrown an exception.");
 
         } catch (InternalServerErrorException ex) {

@@ -6,7 +6,7 @@ const TODOIST_ADD_TASK_API = "https://api.todoist.com/rest/v1/tasks";
 const TODOIST_SCOPES = ["task:add", "data:read_write"];
 
 const TODOIST_PROXY_API_ACCESS_TOKEN = "https://websitequickadding4todoisttest.appspot.com/api/todoistProxyAPI/v1/access-token/";
-const TODOIST_PROXY_API_CLIENT_ID = "https://websitequickadding4todoisttest.appspot.com/api/todoistProxyAPI/v1/client-id/";
+const TODOIST_PROXY_API_CLIENT_ID = "https://websitequickadding4todoisttest.appspot.com/api/todoistProxyAPI/v1/configuration/";
 
 const REDIRECT_URL = browser.identity.getRedirectURL();
 

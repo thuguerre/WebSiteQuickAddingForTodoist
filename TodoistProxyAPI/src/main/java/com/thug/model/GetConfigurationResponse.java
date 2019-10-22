@@ -1,6 +1,6 @@
 package com.thug.model;
 
-public class GetClientIdResponse {
+public class GetConfigurationResponse {
 
     private String client_id;
 
