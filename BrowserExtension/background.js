@@ -1,18 +1,53 @@
 const TASK_ADD_NOTIFICATION_ID = "task-add-notification";
 const TODOIST_ACCESS_TOKEN_STORAGE_ID = "todoist_access_token";
 
-const TODOIST_CLIENT_ID = "51ba8ae54b9146be839bd0561002f081";
 const TODOIST_AUTHORIZE_URL = "https://todoist.com/oauth/authorize";
 const TODOIST_ADD_TASK_API = "https://api.todoist.com/rest/v1/tasks";
 const TODOIST_SCOPES = ["task:add", "data:read_write"];
 
 const TODOIST_PROXY_API_ACCESS_TOKEN = "https://websitequickadding4todoisttest.appspot.com/api/todoistProxyAPI/v1/access-token/";
+const TODOIST_PROXY_API_CLIENT_ID = "https://websitequickadding4todoisttest.appspot.com/api/todoistProxyAPI/v1/client-id/";
+
 const REDIRECT_URL = browser.identity.getRedirectURL();
 
 var todoist_access_token;
+var todoist_client_id;
+
+// calling our API to get the Todoist Client Id to use
+getClientIdFromAPI();
 
 // all starts from this listener set on browser extension button click
 browser.browserAction.onClicked.addListener(clickOnButton);
+
+function getClientIdFromAPI() {
+  
+  // call our Todoist Proxy API to retrieve the TODOIST CLIENT ID to use
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+  
+    if (this.readyState == 4) {
+    
+      if (this.status == 200) {
+
+        todoist_client_id = this.responseText.match(/\"clientId\": \"([0-9a-f]{32})\"/)[1];
+        console.log("client id got from API: " + todoist_client_id);
+        
+      } else if (this.status == 500) {
+      
+        console.error("impossible to get Todoist Client Id. Extension as failed.");
+              
+      } else {
+        
+        console.error("impossible calling of API to get Todoist Client Id ; status=" + this.status);
+        console.error("error from API : " + this.responseText);
+      }
+    }
+  };
+  xhttp.open("GET", TODOIST_PROXY_API_CLIENT_ID, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.send("");
+}
+
 
 function clickOnButton() {
       
@@ -54,7 +89,7 @@ function startTodoistAuthorizationFlow() {
   const state = uuidv4(); 
                    
   let authURL = TODOIST_AUTHORIZE_URL;
-  authURL += `?client_id=${TODOIST_CLIENT_ID}`;
+  authURL += `?client_id=${todoist_client_id}`;
   authURL += `&scope=${encodeURIComponent(TODOIST_SCOPES.join(','))}`;
   authURL += `&state=${state}`;
   authURL += `&redirect_uri=${encodeURIComponent(REDIRECT_URL)}`;

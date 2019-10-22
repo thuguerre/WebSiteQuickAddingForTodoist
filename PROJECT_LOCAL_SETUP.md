@@ -22,7 +22,7 @@ where:
 - `TODOIST_CLIENT_ID` value is the Client Id got from your [Todoist Application Console](https://developer.todoist.com/appconsole.html). It has to have the same value as in `background.js` file, in `BrowserExtension` directory.
 - `TODOIST_CLIENT_SECRET` value is the Secret Key got from your [Todoist Application Console](https://developer.todoist.com/appconsole.html).
 
-Regarding the extension part, the `TODOIST_CLIENT_ID` (and only it) is set in the header of `background.js`. Of course, `TODOIST_CLIENT_ID` in both Java and Javascript parts have to be equal.
+Regarding the extension part, the `TODOIST_CLIENT_ID` is automatically retrieved from API when launched.
 
 Both environment variables are required to launch Unit Tests AND to package the Java API, as they are injected in `appengine-web.xml` to make it working on Google Cloud Platform environment. *Yes, finally, the .war file contains a file with credentials values, but I did not find yet how to set Environment Variables on AppEngine Java 8 in another way.*          
 
@@ -33,6 +33,8 @@ See [Java API User Documentation](API_USER_DOCUMENTATION.md), to learn how to us
  
 
 ## How to test the extension ?
+
+**By default, the extension aims the API on TEST environment. Please look at URL at the very top of the file `background.js`.**
 
 Under your Firefox browser (**not yet tested under Chrome**) 
 - Open `about:debugging` tab 
