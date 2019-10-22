@@ -51,6 +51,7 @@ In case of success, service returns:
 
 In case of success, service returns:  
 
-> {  
->     "accessToken": "access token revoked"  
-> }  
+    {
+        "result": "OK",
+        "resultMessage": "access token revoked"
+    }  
