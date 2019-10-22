@@ -21,20 +21,20 @@ If you need to build and deploy the project by yourself locally or on Google Clo
 ## On Google Cloud Platform TEST Environment
 
 First be sure your Cloud SDK aims to the TEST Environment:  
-> gcloud config get-value project
+  gcloud config get-value project
 
 If the result is not `websitequickadding4todoisttest`, you can set it with:
-> gcloud config set project websitequickadding4todoisttest
+  gcloud config set project websitequickadding4todoisttest
 
 You can then build and deploy the Java API:  
  
-> 1. mvn clean package  
-> 2. mvn endpoints-framework:openApiDocs  
-> 3. gcloud endpoints services deploy target/openapi-docs/openapi.json   
-> 4. mvn appengine:deploy
+  mvn clean package  
+  mvn endpoints-framework:openApiDocs  
+  gcloud endpoints services deploy target/openapi-docs/openapi.json   
+  mvn appengine:deploy
 
 If you have only modified the Java code itself, without modifying the API contract, you can only execute:
-> mvn appengine:deploy
+  mvn appengine:deploy
 
 
 ## On Google Cloud Platform PROD Environment
@@ -42,22 +42,22 @@ If you have only modified the Java code itself, without modifying the API contra
 > **BE CAREFUL: you are going to deploy on PROD**  
 
 First be sure your Cloud SDK aims to the ***PROD*** Environment:  
-> gcloud config get-value project
+  gcloud config get-value project
 
 If the result is not `websitequickadding4todoistprod`, you can set it with:
-> gcloud config set project websitequickadding4todoistprod
+  gcloud config set project websitequickadding4todoistprod
 
 You can then build and deploy the Java API:  
 
-> 1. mvn clean package ***-P PROD***  
-> 2. mvn endpoints-framework:openApiDocs ***-P PROD***  
-> 3. gcloud endpoints services deploy target/openapi-docs/openapi.json   
-> 4. mvn appengine:deploy ***-P PROD***
+  mvn clean package ***-P PROD***  
+  mvn endpoints-framework:openApiDocs ***-P PROD***  
+  gcloud endpoints services deploy target/openapi-docs/openapi.json   
+  mvn appengine:deploy ***-P PROD***
 
 > Note that we use the Maven profiles to modify the inner configuration. Do not forget to active the PROD Profile on each of your Maven command.
 
 If you have only modified the Java code itself, without modifying the API contract, you can only execute:
-> mvn appengine:deploy ***-P PROD***
+  mvn appengine:deploy ***-P PROD***
 
 Always test the deployment to be sure all is right.
 
@@ -78,8 +78,8 @@ To deploy Java Application locally, you first have to set an environment variabl
 > ENDPOINTS_SERVICE_NAME=websitequickadding4todoisttest.appspot.com
 
 Then, you can build and deploy Java App:  
-> mvn clean package  
-> ${google-cloud-sdk}\bin\java_dev_appserver.cmd ./TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT
+  mvn clean package  
+  ${google-cloud-sdk}\bin\java_dev_appserver.cmd ./TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT
 
 ## Resources
 
