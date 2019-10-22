@@ -57,7 +57,7 @@ In case of success, service returns:
     }  
 
 
-## client-id GET
+## configuration GET
 
 ### request body
 
