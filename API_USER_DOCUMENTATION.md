@@ -21,7 +21,7 @@ The only difference is the calling method : `POST` or `DELETE`.
 - 400 : code and/or state are null. Please verify your request body    
 - 401 : sent code is not valid. Please verify your authentication process and get a fresh and valid code from Todoist Authorization service.    
 - 409 : something bad occurred. but what ?
-- 500 : API configuration loading failed. nothing to do to solve the situration. API has to be restarted.
+- 500 : API configuration loading failed. nothing to do to solve the situation. API has to be restarted.
 
 ### response body
 
@@ -45,7 +45,7 @@ In case of success, service returns:
 - 400 : token is null. Please verify your request body.      
 - 409 : something bad occurred. but what ?    
 - 410 : token has expired or is wrong. it is no more known from Todoist and cannot be revoked.
-- 500 : API configuration loading failed. nothing to do to solve the situration. API has to be restarted.
+- 500 : API configuration loading failed. nothing to do to solve the situation. API has to be restarted.
 
 ### response body
 
@@ -54,4 +54,24 @@ In case of success, service returns:
     {
         "result": "OK",
         "resultMessage": "access token revoked"
+    }  
+
+
+## client-id GET
+
+### request body
+
+> no body
+
+### response codes
+
+- 200 : returns a valid client id configuration
+- 500 : API configuration loading failed. nothing to do to solve the situation. API has to be restarted.
+
+### response body
+
+In case of success, service returns:  
+
+    {
+        "clientId": "51ba8ae54c9146be848bd0561003f089"
     }  
