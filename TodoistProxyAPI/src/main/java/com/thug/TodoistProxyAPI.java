@@ -162,15 +162,15 @@ public class TodoistProxyAPI {
         }
     }
 
-    @ApiMethod(path = "client-id", httpMethod = ApiMethod.HttpMethod.GET)
-    public GetClientIdResponse todoistClientId() throws InternalServerErrorException {
+    @ApiMethod(path = "configuration", httpMethod = ApiMethod.HttpMethod.GET)
+    public GetConfigurationResponse getConfiguration() throws InternalServerErrorException {
 
         if (clientId == null || clientId.length() == 0) {
             LOGGER.severe("Environment Variable TODOIST_CLIENT_ID is not set.");
             throw new InternalServerErrorException("Environment Variable TODOIST_CLIENT_ID is not set.");
         }
 
-        GetClientIdResponse response = new GetClientIdResponse();
+        GetConfigurationResponse response = new GetConfigurationResponse();
         response.setClientId(clientId);
 
         return response;
