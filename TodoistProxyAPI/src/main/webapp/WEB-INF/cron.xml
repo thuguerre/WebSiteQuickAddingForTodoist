@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+    <cron>
+        <url>/wake-up</url>
+        <target>beta</target>
+        <description>make API always available</description>
+        <schedule>every 5 minutes</schedule>
+    </cron>
+</cronentries>
