@@ -58,6 +58,7 @@ jobs:
         gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/cron.yaml
         
 
+
     - name: Build with Maven for a PROD env
       if: github.ref == 'refs/heads/master'
       run: mvn clean package --file TodoistProxyAPI/pom.xml -P PROD
