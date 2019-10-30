@@ -34,11 +34,11 @@ function getClientIdFromAPI() {
         
       } else if (this.status == 500) {
       
-        console.error("impossible to get Todoist Client Id. Extension as failed.");
+        console.error("impossible to get Todoist Client Id. Extension has failed.");
               
       } else {
         
-        console.error("failed call to API to get Todoist Client Id. Extension as failed ; status=" + this.status);
+        console.error("failed call to API to get Todoist Client Id. Extension has failed ; status=" + this.status);
         console.error("error from API : " + this.responseText);
       }
     }
