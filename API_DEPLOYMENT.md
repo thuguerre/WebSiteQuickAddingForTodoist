@@ -59,16 +59,16 @@ If the result is not `websitequickadding4todoistprod`, you can set it with:
 
 You can then build and deploy the Java API:  
 
-    mvn clean package ***-P PROD***  
-    mvn endpoints-framework:openApiDocs ***-P PROD***  
+    mvn clean package -P PROD  
+    mvn endpoints-framework:openApiDocs -P PROD  
     gcloud endpoints services deploy target/openapi-docs/openapi.json   
-    mvn appengine:deploy ***-P PROD***
+    mvn appengine:deploy -P PROD
 
 > Note that we use the Maven profiles to modify the inner configuration. Do not forget to active the PROD Profile on each of your Maven command.
 
 If you have only modified the Java code itself, without modifying the API contract, you can only execute:
 
-    mvn appengine:deploy ***-P PROD***
+    mvn appengine:deploy -P PROD
 
 Always test the deployment to be sure all is right.
 
