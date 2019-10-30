@@ -28,6 +28,10 @@ Before releasing a new version of the project to public, whatever it is the exte
 - To verify all Maven compilation warnings and errors
 - To verify all Github actions logs, for warning or error
 - To build a release version of the API (not a SNAPSHOT one)
+- To verify if HTTP requests repository is up to date
+- To verify if (API_DEPLOYMENT.md) process is up to date
+- To verify if (API_USE_DOCUMENTATION.md) is up to date
+- To verify if (PROJECT_LOCAL_SETUP.md) is up to date
 
 ## Once deployed
 
