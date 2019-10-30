@@ -97,7 +97,7 @@ To deploy Java Application locally, you first have to set an environment variabl
 Then, you can build and deploy Java App:  
 
     mvn clean package  
-    ${google-cloud-sdk}\bin\java_dev_appserver.cmd ./TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT
+    ${google-cloud-sdk}\bin\java_dev_appserver.cmd ./TodoistProxyAPI-1.0-SNAPSHOT
 
 ## Resources
 

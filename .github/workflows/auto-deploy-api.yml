@@ -51,11 +51,11 @@ jobs:
                      
     - name: GCP / Deploy App on TEST env 
       run: |
-        gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
+        gcloud app deploy TodoistProxyAPI/target/TodoistProxyAPI-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
 
     - name: GCP / Deploy Cron on TEST env
       run: |
-        gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/cron.yaml
+        gcloud app deploy TodoistProxyAPI/target/TodoistProxyAPI-1.0-SNAPSHOT/WEB-INF/cron.yaml
         
 
 
@@ -84,9 +84,9 @@ jobs:
     - name: GCP / Deploy App on PROD env
       if: github.ref == 'refs/heads/master'  
       run: |
-        gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
+        gcloud app deploy TodoistProxyAPI/target/TodoistProxyAPI-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
 
     - name: GCP / Deploy Cron on PROD env
       if: github.ref == 'refs/heads/master'  
       run: |
-        gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/cron.yaml
+        gcloud app deploy TodoistProxyAPI/target/TodoistProxyAPI-1.0-SNAPSHOT/WEB-INF/cron.yaml
