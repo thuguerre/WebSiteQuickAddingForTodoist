@@ -16,9 +16,6 @@ var todoist_client_id;
 // calling our API to get the Todoist Client Id to use
 getClientIdFromAPI();
 
-// all starts from this listener set on browser extension button click
-browser.browserAction.onClicked.addListener(clickOnButton);
-
 function getClientIdFromAPI() {
   
   // call our Todoist Proxy API to retrieve the TODOIST CLIENT ID to use
@@ -31,14 +28,17 @@ function getClientIdFromAPI() {
 
         todoist_client_id = this.responseText.match(/\"clientId\": \"([0-9a-f]{32})\"/)[1];
         console.log("client id got from API: " + todoist_client_id);
+
+        // user interaction starts from this listener set on browser extension button click
+        browser.browserAction.onClicked.addListener(clickOnButton);
         
       } else if (this.status == 500) {
       
-        console.error("impossible to get Todoist Client Id. Extension as failed.");
+        console.error("impossible to get Todoist Client Id. Extension has failed.");
               
       } else {
         
-        console.error("impossible calling of API to get Todoist Client Id ; status=" + this.status);
+        console.error("failed call to API to get Todoist Client Id. Extension has failed ; status=" + this.status);
         console.error("error from API : " + this.responseText);
       }
     }
