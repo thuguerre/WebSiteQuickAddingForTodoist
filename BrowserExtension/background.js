@@ -38,7 +38,7 @@ function getClientIdFromAPI() {
               
       } else {
         
-        console.error("impossible calling of API to get Todoist Client Id ; status=" + this.status);
+        console.error("failed call to API to get Todoist Client Id. Extension as failed ; status=" + this.status);
         console.error("error from API : " + this.responseText);
       }
     }
