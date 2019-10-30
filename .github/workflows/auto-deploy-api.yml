@@ -32,7 +32,6 @@ jobs:
         TODOIST_CLIENT_SECRET: ${{ secrets.TODOIST_CLIENT_SECRET_PROD }}
 
 
-    
     - name: GCP / Install gcloud SDK
       run: |
         sudo apt-get update && sudo apt-get install google-cloud-sdk && sudo apt-get install google-cloud-sdk-app-engine-java
@@ -54,8 +53,12 @@ jobs:
       run: |
         gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
 
-
+    - name: GCP / Deploy Cron on TEST env
+      run: |
+        gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/cron.yaml
         
+
+
     - name: Build with Maven for a PROD env
       if: github.ref == 'refs/heads/master'
       run: mvn clean package --file TodoistProxyAPI/pom.xml -P PROD
@@ -82,3 +85,8 @@ jobs:
       if: github.ref == 'refs/heads/master'  
       run: |
         gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
+
+    - name: GCP / Deploy Cron on PROD env
+      if: github.ref == 'refs/heads/master'  
+      run: |
+        gcloud app deploy TodoistProxyAPI/target/TodoistQuickWebSiteURLAddAsTask-1.0-SNAPSHOT/WEB-INF/cron.yaml

@@ -75,3 +75,31 @@ In case of success, service returns:
     {
         "clientId": "51ba8ae54c9146be848bd0561003f089"
     }  
+
+
+## wake-up GET
+
+### request body
+
+> no body
+
+### response codes
+
+- 200 : returns a valid client id configuration
+
+### response body
+
+In case of success, service returns:  
+
+    {
+        "message": "Let me sleeping..."
+    }  
+
+
+# Cron tasks
+
+By default, the GCP Standard environment, used for this project, shuts down Google App Engine application if is not used. It is a problem when a user comes after the shutdown and suffers a 20-second-long process to wake up the API. To prevent this default, a Cron task has been configured to keep the API alive. It consists in a call each 5 minutes on the `Wake Up` service, doing nothing but returning a message asking to let it sleeping.  
+
+Cron task is injected into Google App Engine using the file `cron.yaml` which can be found in `WEB-INF` folder. Please look at [API Deployment procedure](API_DEPLOYMENT.md#On-Google-Cloud-Platform-TEST-Environment) to know how to deploy tasks on environment.  
+
+Be careful about GCP environment, as the default Google App Engine free time quota can be easily consumed with deployments added to the 24-hours alive execution.
