@@ -75,3 +75,22 @@ In case of success, service returns:
     {
         "clientId": "51ba8ae54c9146be848bd0561003f089"
     }  
+
+
+## wake-up GET
+
+### request body
+
+> no body
+
+### response codes
+
+- 200 : returns a valid client id configuration
+
+### response body
+
+In case of success, service returns:  
+
+    {
+        "message": "Let me sleeping..."
+    }  
