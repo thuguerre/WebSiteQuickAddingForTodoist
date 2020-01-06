@@ -1,4 +1,7 @@
-cron:
-  - description: "make API always available"
-    url: /api/todoistProxyAPI/v1/wake-up
-    schedule: every 5 mins
+# cron is deactivated as it costs a lot on GCP... 50$ / month / environment
+# deactivating it while looking for another solution
+
+#cron:
+#  - description: "make API always available"
+#    url: /api/todoistProxyAPI/v1/wake-up
+#    schedule: every 5 mins
