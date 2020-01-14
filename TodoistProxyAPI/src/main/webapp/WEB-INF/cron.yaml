@@ -1,4 +1,4 @@
 cron:
   - description: "make API always available"
     url: /api/todoistProxyAPI/v1/wake-up
-    schedule: every 11 hours
+    schedule: every 55 mins

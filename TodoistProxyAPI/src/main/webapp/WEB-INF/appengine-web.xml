@@ -17,7 +17,7 @@
 
     <basic-scaling>
         <max-instances>1</max-instances>
-        <idle-timeout>720m</idle-timeout>
+        <idle-timeout>3600s</idle-timeout>
     </basic-scaling>
 
     <system-properties>
