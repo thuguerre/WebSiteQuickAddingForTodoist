@@ -1,6 +1,6 @@
 package com.thug.model;
 
-public class WakeUpResponse {
+public class KeepAliveResponse {
 
     private String message;
 
