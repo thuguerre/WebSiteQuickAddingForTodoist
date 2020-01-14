@@ -25,7 +25,7 @@ public class TodoistProxyAPI {
 
     protected static final String TODOIST_CLIENT_ID_ENV_VAR_ID = "TODOIST_CLIENT_ID";
     protected static final String TODOIST_CLIENT_SECRET_ENV_VAR_ID = "TODOIST_CLIENT_SECRET";
-    protected static final String WAKE_UP_RESPONSE = "Let me sleeping...";
+    protected static final String KEEP_ALIVE_RESPONSE = "Let me sleeping...";
     private static final String TODOIST_GET_ACCESS_TOKEN_API = "https://todoist.com/oauth/access_token";
     private static final String TODOIST_REVOKE_ACCESS_TOKEN_API = "https://api.todoist.com/sync/v8/access_tokens/revoke";
     private static final Logger LOGGER = Logger.getLogger(TodoistProxyAPI.class.getName());
@@ -176,10 +176,10 @@ public class TodoistProxyAPI {
         return response;
     }
 
-    @ApiMethod(path = "wake-up", httpMethod = ApiMethod.HttpMethod.GET)
-    public WakeUpResponse wakeUp() {
-        WakeUpResponse response = new WakeUpResponse();
-        response.setMessage(WAKE_UP_RESPONSE);
+    @ApiMethod(path = "keep-alive", httpMethod = ApiMethod.HttpMethod.GET)
+    public KeepAliveResponse keepAlive() {
+        KeepAliveResponse response = new KeepAliveResponse();
+        response.setMessage(KEEP_ALIVE_RESPONSE);
         return response;
     }
 }
