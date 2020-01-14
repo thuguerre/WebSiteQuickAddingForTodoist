@@ -200,7 +200,7 @@ function onErrorToGetTab(error) {
 function confirmTaskCreationToUser() {
   return browser.notifications.create(TASK_ADD_NOTIFICATION_ID, {
     "type": "basic",
-    "iconUrl": browser.runtime.getURL("icons/logo-1024.png"),
+    "iconUrl": browser.runtime.getURL("icons/border-48.png"),
     "title": browser.i18n.getMessage("taskAddConfirmationTitle"),
     "message": browser.i18n.getMessage("taskAddConfirmationMessage")
   });

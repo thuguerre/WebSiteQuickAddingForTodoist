@@ -8,7 +8,7 @@
   "default_locale": "fr",
 
   "icons": {
-    "48": "icons/logo-48.png"
+    "48": "icons/border-48.png"
   },
   
   "background": {
@@ -26,7 +26,7 @@
   
    "browser_action": {
     "default_icon": {
-      "48": "icons/logo-48.png"
+      "48": "icons/border-48.png"
     }
   },
   
