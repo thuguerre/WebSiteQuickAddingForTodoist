@@ -1,4 +1,6 @@
 cron:
   - description: "make API always available"
     url: /api/todoistProxyAPI/v1/keep-alive
-    schedule: every 55 mins
+    schedule: every 24 hours
+    # previous configuration is made not to cost on GCP environment
+    # should be backed to a always-living configuration once Issue #26 is solved
