@@ -4,36 +4,36 @@ Before releasing a new version of the project to public, whatever it is the exte
 
 ## General
 
-- To verify backward compatibility
+- Verifying backward compatibility
     - Are all modifications compatible "as-is" with previous version ?
     - If not, are actions/conceptions/... taken to make previous version working ?
 - Is there any conflict in this version's modification with [Todoist Brand Usage Limits](https://developer.todoist.com/sync/v8/#brand-usage) ?
-- To update the CHANGE LOG (two changelogs: one for contributor on github ? and another one for public ?)
+- Updating the CHANGE LOG (two changelogs: one for contributor on github ? and another one for public ?)
 
 ## Browser Extension
 
-- To verify there is no more TODO in code
-- To verify permissions in `manifest.json`
+- Verifying there is no more TODO in code
+- Verifying permissions in `manifest.json`
     - Are required permissions asked in file ? In theory yes, otherwise tests must not pass
     - Are all permissions required or are some of them useless ?
-- To verify browser compatibility, *a minima* with last version of Chrome and Firefox
-- To verify if extension description is up-to-date for public
-- To verify if all extension messages are translated
+- Verifying browser compatibility, *a minima* with last version of Chrome and Firefox
+- Verifying if extension description is up-to-date for public
+- Verifying if all extension messages are translated
     - `manifest.json`
     - `background.json`
     - all `_locales` file, in order to be sure they have all messages
 
 ## Java API
 
-- To verify all Maven compilation warnings and errors
-- To verify all Github actions logs, for warning or error
-- To build a release version of the API (not a SNAPSHOT one)
-- To verify if HTTP requests repository is up to date
-- To verify if (API_DEPLOYMENT.md) process is up to date
-- To verify if (API_USE_DOCUMENTATION.md) is up to date
-- To verify if (PROJECT_LOCAL_SETUP.md) is up to date
+- Verifying all Maven compilation warnings and errors
+- Verifying all Github actions logs, for warning or error
+- Building a release version of the API (not a SNAPSHOT one)
+- Verifying if HTTP requests repository is up to date
+- Verifying if (API_DEPLOYMENT.md) process is up to date
+- Verifying if (API_USE_DOCUMENTATION.md) is up to date
+- Verifying if (PROJECT_LOCAL_SETUP.md) is up to date
 
 ## Once deployed
 
-- To verify with existing version if all works well
-- To uninstall and reinstall new version and to verify all works well
+- Verifying with existing version if all works well
+- Uninstalling and reinstalling new version and to verify all works well
