@@ -18,7 +18,7 @@ This extension project is now under developement. Contributions are still diffic
 - By translating texts other than in English and French,
 - By reporting issues, and even fixing them :)
 
-## How it works ?
+## How both API and Browser Extension work ?
 
 Basically, the extension has the following process, fired when the user clicks on the extension button :
 
@@ -36,9 +36,9 @@ Basically, the extension has the following process, fired when the user clicks o
     - If task add has failed due to Authorization reasons, revoke the Access Token and go to `Step 3` 
 
 
-## How to set up the project ?
+## How to set up the project locally ?
 
-See [Set Up Documentation](PROJECT_LOCAL_SETUP.md).  
+See [Project Local Set Up Documentation](PROJECT_LOCAL_SETUP.md).  
 
 # Resources
 
