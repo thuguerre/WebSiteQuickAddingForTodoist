@@ -6,12 +6,12 @@ In order to make this project working and testable, you will need to own a [Todo
 
 You will also need to declare an application in [Todoist Application Console](https://developer.todoist.com/appconsole.html), in order to get Client Id and Secret values which will have to be set in the following credentials files.  
 
-*I own a premium Todoist account, and currently do not know if a free account is enough.*  
+*Author's note : I own a premium Todoist account, and currently do not know if a free account is enough.*  
 
 ## Credentials
 
-> If you do not plan to modify the Java API, you can use the official `TODOIST_CLIENT_ID` already set in `background.js` (and on GCP environments).    
-> However, if you need to modify the Java part of the project, you will have to execute the following process, and generate your own `TODOIST_CLIENT_ID` and `TODOIST_CLIENT_SECRET`.  
+> If you need to modify the API part of the project, you will have to execute the following process, and generate your own `TODOIST_CLIENT_ID` and `TODOIST_CLIENT_SECRET`.  
+> If you do not plan to modify the API but only the browser extension, you will be able to call the default test API which will provide you the official `TODOIST_CLIENT_ID`.    
 
 For security reasons, Todoist API credentials are not committed (and must not) to the Git repository. The API is designed to use Environment Variables, not to be based on war-inner-files containing these values.    
 To make the API working on any environment (your local one or a distant server), you have first to set following both environment variables:
@@ -22,15 +22,19 @@ where:
 - `TODOIST_CLIENT_ID` value is the Client Id got from your [Todoist Application Console](https://developer.todoist.com/appconsole.html). It has to have the same value as in `background.js` file, in `BrowserExtension` directory.
 - `TODOIST_CLIENT_SECRET` value is the Secret Key got from your [Todoist Application Console](https://developer.todoist.com/appconsole.html).
 
-Regarding the extension part, the `TODOIST_CLIENT_ID` is automatically retrieved from API when launched.
+MacOS Users can use [this article](https://medium.com/@mamk2118/setting-up-environment-variables-in-macos-mojave-and-mac-os-catalina-27ea1bb032f3) to set their environment variables.
+
+By default, Browser Extension will automatically retrieve the `TODOIST_CLIENT_ID` from API when launched.
 
 Both environment variables are required to launch Unit Tests AND to package the Java API, as they are injected in `appengine-web.xml` to make it working on Google Cloud Platform environment. *Yes, finally, the .war file contains a file with credentials values, but I did not find yet how to set Environment Variables on AppEngine Java 8 in another way.*          
 
 ## How to build and deploy the API ?
 
 See [Java API Deployment instructions](API_DEPLOYMENT.md), to deploy it on Google Cloud AppEngine.  
-See [Java API User Documentation](API_USER_DOCUMENTATION.md), to learn how to use it.      
- 
+See [Java API User Documentation](API_USER_DOCUMENTATION.md), to learn how to use it.  
+
+See TODO, to deploy Python API.  
+See TODO, to use Python API.   
 
 ## How to test the extension ?
 

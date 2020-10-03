@@ -5,12 +5,12 @@ on:
   push:  
     paths:
     - 'TodoistProxyAPIPython/**'
-    - '.github/workflows/auto-test-python.yml'
+    - '.github/workflows/auto-test-python-api.yml'
     
   pull_request:  
     paths:
     - 'TodoistProxyAPIPython/**'
-    - '.github/workflows/auto-test-python.yml'
+    - '.github/workflows/auto-test-python-api.yml'
 
 jobs:
   build:

@@ -1,15 +1,15 @@
-name: Auto Deploy API
+name: Auto Deploy Java API
 
 on:
   push:  
     paths:
     - 'TodoistProxyAPI/**'
-    - '.github/workflows/auto-deploy-api.yml'
+    - '.github/workflows/auto-deploy-java-api.yml'
     
   pull_request:  
     paths:
     - 'TodoistProxyAPI/**'
-    - '.github/workflows/auto-deploy-api.yml'
+    - '.github/workflows/auto-deploy-java-api.yml'
 
 jobs:
   build:
@@ -51,7 +51,7 @@ jobs:
                      
     - name: GCP / Deploy App on TEST env 
       run: |
-        gcloud app deploy TodoistProxyAPI/target/TodoistProxyAPI-1.0-SNAPSHOT/WEB-INF/appengine-web.xml --quiet
+        gcloud app deploy TodoistProxyAPI/target/TodoistProxyAPI-1.0-SNAPSHOT/WEB-INF/appengine-web.xml
 
     - name: GCP / Deploy Cron on TEST env
       run: |
