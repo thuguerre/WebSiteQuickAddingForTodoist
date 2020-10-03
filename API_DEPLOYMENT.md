@@ -2,7 +2,7 @@
 
 By default, a commit on the GitHub repository (today all branches, tomorrow only on `master`) will activate an auto-deployment of the Java API to Google Cloud Platform AppEngine, using GitHub Actions, on an TEST Environment. The workflow is run only if a file in the API directory `TodoistProxyAPI` is changed (or if the GitHub Actions workflow is modified).    
 
-The deployment workflow is described in `.github/workflows/auto-deploy-api.yml`.
+The deployment workflow is described in `.github/workflows/auto-deploy-java-api.yml`.
 
 For documentation in case of required GitHub re-configuration, the following [GitHub Secrets](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/settings/secrets) have to be created first:  
 - `GCLOUD_AUTH_ENV_TEST`, whose value as to be got [from here](https://console.cloud.google.com/iam-admin/serviceaccounts) and then base64-encoded (with [this site](https://www.base64encode.org/) for instance). Moreover, you have to [activate AppEngine Admin API](https://console.developers.google.com/apis/api/appengine.googleapis.com/overview).   

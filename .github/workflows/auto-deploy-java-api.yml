@@ -1,15 +1,15 @@
-name: Auto Deploy API
+name: Auto Deploy Java API
 
 on:
   push:  
     paths:
     - 'TodoistProxyAPI/**'
-    - '.github/workflows/auto-deploy-api.yml'
+    - '.github/workflows/auto-deploy-java-api.yml'
     
   pull_request:  
     paths:
     - 'TodoistProxyAPI/**'
-    - '.github/workflows/auto-deploy-api.yml'
+    - '.github/workflows/auto-deploy-java-api.yml'
 
 jobs:
   build:

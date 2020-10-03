@@ -19,7 +19,7 @@ Before releasing a new version of the project to public, whatever it is the exte
 - To verify browser compatibility, *a minima* with last version of Chrome and Firefox
 - To verify if extension description is up-to-date for public
 - To verify if all extension messages are translated
-    - `manifert.json`
+    - `manifest.json`
     - `background.json`
     - all `_locales` file, in order to be sure they have all messages
 
