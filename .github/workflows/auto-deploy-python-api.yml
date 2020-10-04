@@ -56,10 +56,10 @@ jobs:
         project_id: websitequickadding4todoisttest
         service_account_key: ${{ secrets.GCLOUD_AUTH_ENV_TEST }}
 
-    - name: GCP / Deploy to Cloud Function
+    - name: GCP / Deploy to Cloud Function on Test Environment
       run: |
         gcloud functions deploy test-to-delete --source ./TodoistProxyAPIPython --entry-point simple_cloud_function --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
 
-    - name: Test Deployment with pytest
+    - name: Verify Deployment on Test Environment
       run: |
         pytest -m 'not unittest and deploymenttest' ./TodoistProxyAPIPython
