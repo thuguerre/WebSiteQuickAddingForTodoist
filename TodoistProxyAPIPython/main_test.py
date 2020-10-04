@@ -1,10 +1,12 @@
 from main import simple_cloud_function
-import pytest, unittest
+import pytest
+import unittest
 import requests
-import os, uuid
+import uuid
 from unittest.mock import Mock
 
 # https://cloud.google.com/functions/docs/testing/test-http?hl=fr
+
 
 class TestMain(unittest.TestCase):
 
@@ -24,7 +26,6 @@ class TestMain(unittest.TestCase):
 
     @pytest.mark.deploymenttest
     def test_remote_simple_cloud_function(self):
-        # BASE_URL = os.getenv('BASE_URL')
         BASE_URL = 'https://europe-west1-websitequickadding4todoisttest.cloudfunctions.net/test-to-delete'
         assert BASE_URL is not None
 
@@ -34,4 +35,3 @@ class TestMain(unittest.TestCase):
             json={'name': name}
         )
         assert res.text == '''<h1>TEST</h1>'''
-
