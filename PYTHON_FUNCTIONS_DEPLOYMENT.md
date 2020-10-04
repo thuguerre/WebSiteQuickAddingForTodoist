@@ -30,7 +30,7 @@ If the result is not `websitequickadding4todoisttest`, you can set it with:
 
 If you are in `TodoistProxyAPIPython` directory, you can then deploy the Python API:  
  
-    gcloud functions deploy test-to-delete --entry-point simple_cloud_function --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
+    gcloud functions deploy access-token --entry-point access_token --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
 
 Once successfully deployed, you can execute Deployment Tests, from `TodoistProxyAPIPython` directory:
 
@@ -52,7 +52,7 @@ If the result is not `websitequickadding4todoistprod`, you can set it with:
 
 If you are in `TodoistProxyAPIPython` directory, you can then deploy the Python API:  
  
-    gcloud functions deploy test-to-delete --entry-point simple_cloud_function --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
+    gcloud functions deploy access-token --entry-point access_token --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
 
 Always test the deployment to be sure all is right.  
 TODO: when PROD deployment is done (see [issue #80](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/issues/80)), add here the command to execute Deployment Tests on PROD.
