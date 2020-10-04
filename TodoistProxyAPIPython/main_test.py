@@ -1,5 +1,5 @@
 from main import simple_cloud_function
-import unittest
+import pytest, unittest
 import requests
 import os, uuid
 from unittest.mock import Mock
@@ -14,6 +14,7 @@ class TestMain(unittest.TestCase):
     def tearDown(self):
         pass
 
+    @pytest.mark.unittest
     def test_local_simple_cloud_function(self):
         data = {}
         req = Mock(get_json=Mock(return_value=data), args=data)
@@ -21,6 +22,7 @@ class TestMain(unittest.TestCase):
         # Call tested function
         assert simple_cloud_function(req) == '''<h1>TEST</h1>'''
 
+    @pytest.mark.deploymenttest
     def test_remote_simple_cloud_function(self):
         # BASE_URL = os.getenv('BASE_URL')
         BASE_URL = 'https://europe-west1-websitequickadding4todoisttest.cloudfunctions.net/test-to-delete'
