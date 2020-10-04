@@ -65,7 +65,7 @@ jobs:
 
     - name: GCP / Deploy to Cloud Function
       run: |
-        cloud functions deploy test-to-delete --source ./TodoistProxyAPIPython --entry-point simple_cloud_function --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
+        gcloud functions deploy test-to-delete --source ./TodoistProxyAPIPython --entry-point simple_cloud_function --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
 
     - name: Test Deployment with pytest
       run: |
