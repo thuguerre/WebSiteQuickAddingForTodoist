@@ -51,17 +51,10 @@ jobs:
         pytest -m 'unittest and not deploymenttest' ./TodoistProxyAPIPython
 
     - name: GCP / Install gcloud SDK
-      run: |
-        sudo apt-get update && sudo apt-get install google-cloud-sdk && sudo apt-get install google-cloud-sdk-app-engine-python
-        
-    - name: GCP / Connect to TEST env 
-      env: 
-        GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH_ENV_TEST }}
-        CLOUDSDK_CORE_PROJECT: websitequickadding4todoisttest
-      run: |
-        echo "$GCLOUD_AUTH" | base64 --decode > "$HOME"/gcloud.json
-        sh -c "gcloud auth activate-service-account --key-file=$HOME/gcloud.json $*"
-        gcloud config set project "$CLOUDSDK_CORE_PROJECT"
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        project_id: websitequickadding4todoisttest
+        service_account_key: ${{ secrets.GCLOUD_AUTH_ENV_TEST }}
 
     - name: GCP / Deploy to Cloud Function
       run: |
