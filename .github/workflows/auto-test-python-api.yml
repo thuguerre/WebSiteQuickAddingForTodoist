@@ -43,4 +43,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Unit Testing with pytest
       run: |
-        pytest -m unittest
+        pytest -m unittest --rootdir=/home/runner/work/WebSiteQuickAddingForTodoist/WebSiteQuickAddingForTodoist/TodoistProxyAPIPython
