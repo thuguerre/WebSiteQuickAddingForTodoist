@@ -1,4 +1,4 @@
-# Build, package and deploy the project
+# Build, package and deploy the Python project
 
 By default, a commit on the GitHub repository, in directory `TodoistProxyAPIPython`, will activate an auto-deployment of the Python API to Google Cloud Platform Functions, using GitHub Actions, on an TEST Environment. The workflow is run only if a file in the API directory `TodoistProxyAPIPython` is changed (or if the Python GitHub Actions workflow is modified).    
 
@@ -38,7 +38,7 @@ Once successfully deployed, you can execute Deployment Tests, from `TodoistProxy
 
 ## On Google Cloud Platform PROD Environment
 
-> ***Python PROD Deployment has not been done yet. See issue #80. Following steps have just been copied from TEST Deployment for the moment.***  
+> ***Python PROD Deployment has not been done yet. See [issue #80](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/issues/80). Following steps have just been copied from TEST Deployment for the moment.***  
 
 > **BE CAREFUL: you are going to deploy on PROD**  
 
@@ -55,7 +55,7 @@ If you are in `TodoistProxyAPIPython` directory, you can then deploy the Python 
     gcloud functions deploy test-to-delete --entry-point simple_cloud_function --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
 
 Always test the deployment to be sure all is right.  
-TODO: when PROD deployment is done (see issue #80), add here the command to execute Deployment Tests on PROD.
+TODO: when PROD deployment is done (see [issue #80](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/issues/80)), add here the command to execute Deployment Tests on PROD.
 
 ## On your own Google Cloud Platform Environment
 

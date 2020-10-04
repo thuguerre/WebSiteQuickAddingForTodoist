@@ -37,6 +37,7 @@ The project is currently switching from Java:
 
 to Python:
 
+* Python Version: `3.8`
 * See [Python Functions Deployment instructions](PYTHON_FUNCTIONS_DEPLOYMENT.md), to deploy it on Google Cloud Platform Functions.
 * See TODO, to use Python API.   
 
