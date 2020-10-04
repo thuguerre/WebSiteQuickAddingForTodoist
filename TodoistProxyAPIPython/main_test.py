@@ -74,8 +74,8 @@ class TestMain(unittest.TestCase):
         data = {'code': str(uuid.uuid4()), 'state': str(uuid.uuid4())}
 
         res = requests.post(
-            '{}/hello_http'.format(BASE_URL),
-            json={'name': name}
+            '{}'.format(BASE_URL),
+            json=data
         )
         assert res.text == '''<h1>TEST2</h1>'''
         #TODO : assert code response = 200
