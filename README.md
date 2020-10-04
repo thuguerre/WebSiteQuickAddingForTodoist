@@ -2,7 +2,7 @@
 ***NOT EVEN IN AN ALPHA VERSION NOW :)***
 
 ![](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/workflows/Auto%20Deploy%20Java%20API/badge.svg)  
-![](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/workflows/Auto%20Test%20Python%20API/badge.svg)
+![](https://github.com/thuguerre/WebSiteQuickAddingForTodoist/workflows/Auto%20Deploy%20Python%20API/badge.svg)
 
 # Project Description
 
