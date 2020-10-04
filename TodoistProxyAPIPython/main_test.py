@@ -12,10 +12,8 @@ class TestMain(unittest.TestCase):
     def tearDown(self):
         pass
 
-
     def test_simple_cloud_function(self):
-        name = 'test'
-        data = {'name': name}
+        data = {}
         req = Mock(get_json=Mock(return_value=data), args=data)
 
         # Call tested function
