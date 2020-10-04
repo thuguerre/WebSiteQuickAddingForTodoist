@@ -22,7 +22,7 @@ class TestMain(unittest.TestCase):
         req = Mock(get_json=Mock(return_value=data), args=data)
 
         # Call tested function
-        assert simple_cloud_function(req) == '''<h1>TEST</h1>'''
+        assert simple_cloud_function(req) == '''<h1>TEST1</h1>'''
 
     @pytest.mark.deploymenttest
     def test_remote_simple_cloud_function(self):
@@ -34,4 +34,4 @@ class TestMain(unittest.TestCase):
             '{}/hello_http'.format(BASE_URL),
             json={'name': name}
         )
-        assert res.text == '''<h1>TEST</h1>'''
+        assert res.text == '''<h1>TEST1</h1>'''
