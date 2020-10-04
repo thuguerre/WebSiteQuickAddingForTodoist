@@ -1,16 +1,16 @@
-name: Auto Test Python API
+name: Auto Deploy Python API
 # https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-python
 
 on:
   push:  
     paths:
     - 'TodoistProxyAPIPython/**'
-    - '.github/workflows/auto-test-python-api.yml'
+    - '.github/workflows/auto-deploy-python-api.yml'
     
   pull_request:  
     paths:
     - 'TodoistProxyAPIPython/**'
-    - '.github/workflows/auto-test-python-api.yml'
+    - '.github/workflows/auto-deploy-python-api.yml'
 
 jobs:
   build:
@@ -24,22 +24,42 @@ jobs:
         python-version: [3.8]
     
     steps:
-    - uses: actions/checkout@v2
+    - name: Download sources
+      uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest flask
+        pip install flake8 flask
+        pip install pytest requests
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+
+    - name: Unit Testing with pytest
       run: |
-        pytest
+        pytest -m 'unittest and not deploymenttest' ./TodoistProxyAPIPython
+
+    - name: GCP / Install gcloud SDK
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        project_id: websitequickadding4todoisttest
+        service_account_key: ${{ secrets.GCLOUD_AUTH_ENV_TEST }}
+
+    - name: GCP / Deploy to Cloud Function on Test Environment
+      run: |
+        gcloud functions deploy test-to-delete --source ./TodoistProxyAPIPython --entry-point simple_cloud_function --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
+
+    - name: Verify Deployment on Test Environment
+      run: |
+        pytest -m 'not unittest and deploymenttest' ./TodoistProxyAPIPython

@@ -10,6 +10,8 @@ This ***unofficial*** Todoist browser extension allows its user to add its curre
 
 For the moment, this project will only provide this single and quite simple functionnality.     
 
+> ***Disclaimer: initially, this project used a Java API to proxy Todoist services, using Google Cloud AppEngine. However, it is currently switching to a Python version of it, using Google Cloud Functions. All documentation is migrating too, and explains for the moment both versions. Until Python version is fully fuctional and linked to the Browser Extension (not the case for now), Java API will be used and Java documentation is the right one.***
+
 # For developers and/or contributors
 
 ## How to contribute ?
@@ -35,7 +37,6 @@ Basically, the extension has the following process, fired when the user clicks o
     - If task add is a success, confirm the user the task has been added, using [Browser Notification API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications)
     - If task add has failed due to Authorization reasons, revoke the Access Token and go to `Step 3` 
 
-
 ## How to set up the project locally ?
 
 See [Project Local Set Up Documentation](PROJECT_LOCAL_SETUP.md).  
@@ -54,11 +55,15 @@ See [Project Local Set Up Documentation](PROJECT_LOCAL_SETUP.md).
 - [Browser Identity API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity)
 - [Browser Identity API Samples](https://github.com/mdn/webextensions-examples/blob/master/google-userinfo/)
 
-## GCP AppEngine
+## GCP AppEngine (for Java version of the API)
 - [Google Cloud Endpoints Java8 Samples](https://github.com/GoogleCloudPlatform/java-docs-samples/tree/master/appengine-java8/endpoints-v2-backend)
 - [Google Cloud Endpoints Param and Return Types](https://cloud.google.com/endpoints/docs/frameworks/java/parameter-and-return-types)  
 - [Google Cloud Endpoints Exceptions](https://cloud.google.com/endpoints/docs/frameworks/java/exceptions)
 - [Google AppEngine Logging](https://cloud.google.com/appengine/docs/standard/java/logs/)  
+
+## GCP Cloud Functions (for Python version of the API)
+- [Official Google Cloud Functions Doc](https://cloud.google.com/functions/docs/writing/http?hl=fr#writing_http_helloworld-python)
+- [Official Google Cloud Functions Testing Doc](https://cloud.google.com/functions/docs/testing/test-http?hl=fr)
 
 ## API Client
 - [Create a Java RESTFul client with Jersey client](https://o7planning.org/fr/11217/creer-java-restful-client-avec-jersey-client#a4487792)
