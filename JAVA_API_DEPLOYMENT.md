@@ -1,6 +1,6 @@
 # Build, package and deploy the project
 
-By default, a commit on the GitHub repository (today all branches, tomorrow only on `master`) will activate an auto-deployment of the Java API to Google Cloud Platform AppEngine, using GitHub Actions, on an TEST Environment. The workflow is run only if a file in the API directory `TodoistProxyAPI` is changed (or if the GitHub Actions workflow is modified).    
+By default, a commit on the GitHub repository (today all branches, tomorrow only on `master`) will activate an auto-deployment of the Java API to Google Cloud Platform AppEngine, using GitHub Actions, on an TEST Environment. The workflow is run only if a file in the API directory `TodoistProxyAPI` is changed (or if the Java GitHub Actions workflow is modified).    
 
 The deployment workflow is described in `.github/workflows/auto-deploy-java-api.yml`.
 

@@ -30,11 +30,15 @@ Both environment variables are required to launch Unit Tests AND to package the 
 
 ## How to build and deploy the API ?
 
-See [Java API Deployment instructions](API_DEPLOYMENT.md), to deploy it on Google Cloud AppEngine.  
-See [Java API User Documentation](API_USER_DOCUMENTATION.md), to learn how to use it.  
+The project is currently switching from Java:
 
-See TODO, to deploy Python API.  
-See TODO, to use Python API.   
+* See [Java API Deployment instructions](JAVA_API_DEPLOYMENT.md), to deploy it on Google Cloud Platform AppEngine.  
+* See [Java API User Documentation](API_USER_DOCUMENTATION.md), to learn how to use it.  
+
+to Python:
+
+* See [Python Functions Deployment instructions](PYTHON_FUNCTIONS_DEPLOYMENT.md), to deploy it on Google Cloud Platform Functions.
+* See TODO, to use Python API.   
 
 ## How to test the extension ?
 
