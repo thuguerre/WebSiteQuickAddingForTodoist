@@ -73,9 +73,11 @@ class TestMain(unittest.TestCase):
 
         data = {'code': str(uuid.uuid4()), 'state': str(uuid.uuid4())}
 
-        res = requests.post(
+        response = requests.post(
             '{}'.format(BASE_URL),
             json=data
         )
-        assert res.text == '''<h1>TEST2</h1>'''
-        #TODO : assert code response = 200
+
+        self.assertIsNotNone(response.text)
+        self.assertEqual(response.status_code, 200)
+        # TODO verify format of the return access token
