@@ -16,6 +16,10 @@ class TestMain(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def assert_json_response(self, json_response):
+        self.assertIsNotNone(json_response)
+        self.assertRegex(json_response['access-token'], self.ACCESS_TOKEN_REGEX)
+
     @pytest.mark.unittest
     def test_local_access_token(self):
         data = {'code': str(uuid.uuid4()), 'state': str(uuid.uuid4())}
@@ -23,10 +27,8 @@ class TestMain(unittest.TestCase):
 
         # Call tested function
         json_response = access_token(req)
-
-        self.assertIsNotNone(json_response)
-        self.assertRegex(json_response['access-token'], self.ACCESS_TOKEN_REGEX)
-
+        self.assert_json_response(json_response)
+        
     @pytest.mark.unittest
     def test_local_access_token_no_code(self):
         data = {'state': str(uuid.uuid4())}
@@ -79,9 +81,5 @@ class TestMain(unittest.TestCase):
             json=data
         )
 
-        self.assertIsNotNone(response.text)
         self.assertEqual(response.status_code, 200)
-
-        # testing JSON response
-        json_response = json.loads(response.text)
-        self.assertRegex(json_response['access-token'], self.ACCESS_TOKEN_REGEX)
+        self.assert_json_response(json.loads(response.text))
