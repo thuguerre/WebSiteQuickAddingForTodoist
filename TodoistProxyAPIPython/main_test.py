@@ -9,8 +9,9 @@ from werkzeug.exceptions import HTTPException
 
 class TestMain(unittest.TestCase):
 
+
     def setUp(self):
-        pass
+        self.ACCESS_TOKEN_REGEX = r'^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
 
     def tearDown(self):
         pass
@@ -24,7 +25,7 @@ class TestMain(unittest.TestCase):
         json_response = access_token(req)
 
         self.assertIsNotNone(json_response)
-        #TODO : test JSON content
+        self.assertRegex(json_response['access-token'], self.ACCESS_TOKEN_REGEX)
 
     @pytest.mark.unittest
     def test_local_access_token_no_code(self):
@@ -80,4 +81,7 @@ class TestMain(unittest.TestCase):
 
         self.assertIsNotNone(response.text)
         self.assertEqual(response.status_code, 200)
-        # TODO verify format of the return access token
+
+        # testing JSON response
+        json_response = json.loads(response.text)
+        self.assertRegex(json_response['access-token'], self.ACCESS_TOKEN_REGEX)
