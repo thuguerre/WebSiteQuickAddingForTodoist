@@ -9,7 +9,6 @@ from werkzeug.exceptions import HTTPException
 
 class TestMain(unittest.TestCase):
 
-
     def setUp(self):
         self.ACCESS_TOKEN_REGEX = r'^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
 
