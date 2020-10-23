@@ -58,7 +58,6 @@ jobs:
 
     - name: GCP / Deploy to Cloud Function on Test Environment
       run: |
-        gcloud alpha functions add-iam-policy-binding access-token --region=europe-west1 --member=allUsers --role=roles/cloudfunctions.invoker
         gcloud functions deploy access-token --source ./TodoistProxyAPIPython --entry-point access_token --region europe-west1 --runtime python38 --trigger-http --allow-unauthenticated
 
     - name: Verify Deployment on Test Environment
