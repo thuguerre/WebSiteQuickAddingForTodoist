@@ -2,11 +2,13 @@ from flask import abort
 import uuid
 
 def access_token(request):
-    #TODO : verify POST only ?
     #TODO : document this method
 
     request_json = request.get_json(silent=True)
     request_args = request.args
+
+    if request.method != 'POST':
+        abort(403, 'method POST only')
 
     if request_json and 'code' in request_json:
         code = request_json['code']

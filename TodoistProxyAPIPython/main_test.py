@@ -19,23 +19,35 @@ class TestMain(unittest.TestCase):
         self.assertIsNotNone(json_response)
         self.assertRegex(json_response['access-token'], self.ACCESS_TOKEN_REGEX)
 
+    def get_request_mock(self, data, method_value='POST'):
+        return Mock(get_json=Mock(return_value=data), args=data, method=method_value)
+
     @pytest.mark.unittest
     def test_local_access_token(self):
         data = {'code': str(uuid.uuid4()), 'state': str(uuid.uuid4())}
-        req = Mock(get_json=Mock(return_value=data), args=data)
 
         # Call tested function
-        json_response = access_token(req)
+        json_response = access_token(self.get_request_mock(data))
         self.assert_json_response(json_response)
+
+    @pytest.mark.unittest
+    def test_local_access_token_with_GET_method(self):
+        data = {'code': str(uuid.uuid4()), 'state': str(uuid.uuid4())}
+
+        # Call tested function
+        with self.assertRaises(HTTPException) as http_error:
+            access_token(self.get_request_mock(data, 'GET'))
+
+        self.assertEqual(http_error.exception.code, 403)
+        self.assertEqual(http_error.exception.description, 'method POST only')
         
     @pytest.mark.unittest
     def test_local_access_token_no_code(self):
         data = {'state': str(uuid.uuid4())}
-        req = Mock(get_json=Mock(return_value=data), args=data)
 
         # Call tested function
         with self.assertRaises(HTTPException) as http_error:
-            access_token(req)
+            access_token(self.get_request_mock(data))
 
         self.assertEqual(http_error.exception.code, 400)
         self.assertEqual(http_error.exception.description, 'code cannot be null')
@@ -43,11 +55,10 @@ class TestMain(unittest.TestCase):
     @pytest.mark.unittest
     def test_local_access_token_no_state(self):
         data = {'code': str(uuid.uuid4())}
-        req = Mock(get_json=Mock(return_value=data), args=data)
 
         # Call tested function
         with self.assertRaises(HTTPException) as http_error:
-            access_token(req)
+            access_token(self.get_request_mock(data))
 
         self.assertEqual(http_error.exception.code, 400)
         self.assertEqual(http_error.exception.description, 'state cannot be null')
@@ -55,11 +66,10 @@ class TestMain(unittest.TestCase):
     @pytest.mark.unittest
     def test_local_access_token_no_code_no_state(self):
         data = {}
-        req = Mock(get_json=Mock(return_value=data), args=data)
 
         # Call tested function
         with self.assertRaises(HTTPException) as http_error:
-            access_token(req)
+            access_token(self.get_request_mock(data))
 
         self.assertEqual(http_error.exception.code, 400)
         self.assertEqual(http_error.exception.description, 'code cannot be null')
