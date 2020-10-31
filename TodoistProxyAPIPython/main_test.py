@@ -11,13 +11,14 @@ class TestMain(unittest.TestCase):
 
     def setUp(self):
         self.ACCESS_TOKEN_REGEX = r'^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
+        self.BASE_URL = 'https://europe-west1-websitequickadding4todoisttest.cloudfunctions.net/access-token'
 
     def tearDown(self):
         pass
 
     def assert_json_response(self, json_response):
-        self.assertIsNotNone(json_response)
-        self.assertRegex(json_response['access-token'], self.ACCESS_TOKEN_REGEX)
+        self.assertIsNotNone(json_response, 'Response is None.')
+        self.assertRegex(json_response['access-token'], self.ACCESS_TOKEN_REGEX, 'Correct Access Token, using regex, has not been found.')
 
     def get_request_mock(self, data, method_value='POST'):
         return Mock(get_json=Mock(return_value=data), args=data, method=method_value)
@@ -80,15 +81,23 @@ class TestMain(unittest.TestCase):
 
     @pytest.mark.deploymenttest
     def test_remote_access_token(self):
-        BASE_URL = 'https://europe-west1-websitequickadding4todoisttest.cloudfunctions.net/access-token'
-        assert BASE_URL is not None
 
+        assert self.BASE_URL is not None
         data = {'code': str(uuid.uuid4()), 'state': str(uuid.uuid4())}
 
         response = requests.post(
-            '{}'.format(BASE_URL),
+            '{}'.format(self.BASE_URL),
             json=data
         )
 
         self.assertEqual(response.status_code, 200)
         self.assert_json_response(json.loads(response.text))
+
+    @pytest.mark.deploymenttest
+    def test_remote_access_token_with_GET_method(self):
+
+        assert self.BASE_URL is not None
+        response = requests.get('{}'.format(self.BASE_URL))
+
+        self.assertEqual(response.status_code, 403)
+        self.assertIn('method POST only', response.text)
